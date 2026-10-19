@@ -204,7 +204,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261019) 명함 10종 
  email:'이메일',office:'사무실 전화',mobile:'휴대전화',web:'웹사이트',xlab:'추가 줄 머리글자',xval:'추가 줄 (주소 등)',
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
  hRnd:'랜덤 배치',rAll:'랜덤 (앞+뒤)',rF:'앞면만 랜덤',rB:'뒷면만 랜덤',rCol:'색상도 함께 바꾸기',rand:'랜덤',
- rndNote:'그래픽을 1~3겹 무작위로 겹쳐 배치합니다. 한 면 안의 +, –, |, 사선은 모두 같은 규격(길이·굵기)을 쓰고, 앞면은 로고, 뒷면은 글자 자리를 피합니다. 마음에 들면 시안 선택의 「랜덤」 칸에 그대로 남습니다.',
+ rndNote:'그래픽을 규칙적인 간격과 가장자리 정렬로 1~3겹 겹쳐 배치합니다(흩뿌리기 없음, 너무 비거나 많이 잘린 결과는 자동으로 다시 뽑음). 한 면 안의 +, –, |, 사선은 모두 같은 규격(길이·굵기)을 쓰고, 앞면은 로고, 뒷면은 글자 자리를 피합니다. 마음에 들면 시안 선택의 「랜덤」 칸에 그대로 남습니다.',
  sRnd:'랜덤 규격',sRndV:'한 면에 1종: 대 21×4.8 · 중 14×3.2 · 소 7×1.6 (대시 길이×굵기, +는 두 개를 십자로, 사선은 45° 회전)',
  hCn:'이름 사이 연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'연결 기호는 뒷면 색상을 따릅니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
@@ -224,7 +224,7 @@ en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261019), 10 card design
  email:'Email',office:'Office phone',mobile:'Mobile',web:'Website',xlab:'Extra line label',xval:'Extra line (address, etc.)',
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
  hRnd:'Random layout',rAll:'Random (front + back)',rF:'Random front only',rB:'Random back only',rCol:'Change colors too',rand:'Random',
- rndNote:'Stacks 1 to 3 layers of graphics at random. Every +, –, | and slash on one side shares one size (length × thickness), and avoids the logo on the front and the text on the back. Keep one you like in the “Random” slot of the picker.',
+ rndNote:'Stacks 1 to 3 layers of graphics on regular spacing and edge alignment (no scattering; results that are too empty or heavily cut are redrawn automatically). Every +, –, | and slash on one side shares one size (length × thickness), and avoids the logo on the front and the text on the back. Keep one you like in the “Random” slot of the picker.',
  sRnd:'Random module',sRndV:'One per side: L 21×4.8 · M 14×3.2 · S 7×1.6 (dash length × thickness; + is two crossed, slashes rotated 45°)',
  hCn:'Connector between names',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The connector takes the back accent color. The gap stays within the guide’s min–max range (13.0–19.6).',
@@ -349,7 +349,8 @@ function glyph(k,cx,cy,M){
   else if(k==='b')p=[barG(cx,cy,L,T,q)];
   else if(k==='x')p=[barG(cx,cy,L,T,-q),barG(cx,cy,L,T,q)];
   else p=[barG(cx,cy,T,T,0)];
-  return {d:p.map(e=>e.d).join(''),box:[Math.min(...p.map(e=>e.box[0])),Math.min(...p.map(e=>e.box[1])),Math.max(...p.map(e=>e.box[2])),Math.max(...p.map(e=>e.box[3]))]};
+  const ink=k==='p'?2*L*T-T*T:k==='x'?2*L*T:k==='d'?T*T:L*T;
+  return {ink,d:p.map(e=>e.d).join(''),box:[Math.min(...p.map(e=>e.box[0])),Math.min(...p.map(e=>e.box[1])),Math.max(...p.map(e=>e.box[2])),Math.max(...p.map(e=>e.box[3]))]};
 }
 function subR(r,z){
   if(z[0]>=r[2]||z[2]<=r[0]||z[1]>=r[3]||z[3]<=r[1])return [r];
@@ -366,43 +367,35 @@ function edgeRegion(r,e,depthMin,depthMax){
   return e===0?[0,0,W,d*H/W]:e===1?[W-d,0,W,H]:e===2?[0,H-d*H/W,W,H]:[0,0,d,H];
 }
 const PAT={
-  scatter(r,M,Z){
-    const kinds=pickK(r,['p','h','v','s','b','x'],1+ri(r,2)),n=3+ri(r,7),els=[];
-    for(let k=0,tr=0;k<n&&tr<300;tr++){
-      const g=glyph(kinds[ri(r,kinds.length)],rand(r,3,W-3),rand(r,3,H-3),M);
-      if(Z.some(z=>hit(g.box,z))||els.some(e=>hit(g.box,e.box,3)))continue;
-      els.push(g);k++;
+  /* 모든 패턴은 규칙적인 간격·대칭·가장자리 정렬로만 배치(흩뿌리기 없음) */
+  grid(r,M,Z){
+    const kind=['p','h','v','d','p','x'][ri(r,6)],alt=r()<.3?['p','h','v','d'][ri(r,4)]:null;
+    const sx=M.L*rand(r,1.7,3)+(kind==='d'?M.T*2:0),sy=sx*rand(r,.85,1.2),hx=r()<.5?.5:0,hy=r()<.5?.5:0;
+    const reg=r()<.5?[0,0,W,H]:edgeRegion(r,ri(r,4),110,190),els=[];
+    for(let j=-12;j<=12;j++)for(let i=-14;i<=14;i++){
+      const x=W/2+(i+hx)*sx,y=H/2+(j+hy)*sy;
+      if(x<reg[0]||x>reg[2]||y<reg[1]||y>reg[3]||x<-2||x>W+2||y<-2||y>H+2)continue;
+      els.push(glyph(alt&&((i+j)&1)?alt:kind,x,y,M));
     }
     return {els};
   },
-  grid(r,M,Z){
-    const kind=['p','h','v','d','p','x'][ri(r,6)],alt=r()<.3?['p','h','v','d'][ri(r,4)]:null;
-    const sx=M.L*rand(r,1.7,3.2)+(kind==='d'?M.T*2:0),sy=sx*rand(r,.8,1.3),ox=rand(r,0,sx),oy=rand(r,0,sy);
-    const reg=r()<.5?[0,0,W,H]:edgeRegion(r,ri(r,4),90,190);
-    const els=[];let j=0;
-    for(let y=oy-sy;y<H+sy&&els.length<420;y+=sy,j++){let i=0;
-      for(let x=ox-sx;x<W+sx;x+=sx,i++){
-        if(x<reg[0]||x>reg[2]||y<reg[1]||y>reg[3])continue;
-        els.push(glyph(alt&&((i+j)&1)?alt:kind,x,y,M));
-      }}
-    return {els};
-  },
   band(r,M,Z){
-    const e=ri(r,4),kinds=pickK(r,['p','h','x','s','b','v'],2+ri(r,2)),pitch=M.L*rand(r,1.2,1.7),rows=1+ri(r,2),off=M.L*rand(r,.7,1),els=[];
-    const horiz=e===0||e===2,span=horiz?W:H;
+    const e=ri(r,4),kinds=pickK(r,['p','h','x','s','b','v'],2+ri(r,2)),pitch=M.L*rand(r,1.25,1.7),rows=1+ri(r,2),off=M.L*rand(r,.75,1),els=[];
+    const horiz=e===0||e===2,span=horiz?W:H,n=Math.floor(span/pitch)+2;
     for(let row=0;row<rows;row++){
-      const dist=off+row*pitch*1.05;
-      for(let i=0;(i+.5)*pitch<span+pitch;i++){
-        const a=(i+.5)*pitch,k=kinds[(i+row)%kinds.length];
+      const dist=off+row*pitch*1.1;
+      for(let i=-n;i<=n;i++){
+        const a=span/2+(i+.5)*pitch;if(a<-2||a>span+2)continue;
+        const k=kinds[(((i+row)%kinds.length)+kinds.length)%kinds.length];
         els.push(horiz?glyph(k,a,e===0?dist:H-dist,M):glyph(k,e===3?dist:W-dist,a,M));
       }
     }
     return {els};
   },
   stair(r,M,Z){
-    const c=ri(r,4),sx=c&1?-1:1,sy=c&2?-1:1,n=5+ri(r,5),els=[];
+    const c=ri(r,4),sx=c&1?-1:1,sy=c&2?-1:1,n=6+ri(r,4),els=[];
     const x0=c&1?W-M.L*.6:M.L*.6,y0=c&2?H-M.L*.6:M.L*.6;
-    const dx=M.L*rand(r,.6,1.1)*sx,dy=M.L*rand(r,.9,1.3)*sy;
+    const dx=M.L*rand(r,.6,1)*sx,dy=M.L*rand(r,.95,1.25)*sy;
     for(let i=0;i<n;i++){
       const x=x0+i*dx,y=y0+i*dy;
       els.push(glyph('p',x,y,M));els.push(glyph('h',x-sx*M.L*.9,y+sy*M.L*.65,M));
@@ -410,7 +403,7 @@ const PAT={
     return {els};
   },
   columns(r,M,Z){
-    const n=5+ri(r,5),pitch=M.T*rand(r,2.6,4.4)+2,els=[],frac=rand(r,.55,1),top=r()<.5;
+    const n=6+ri(r,4),pitch=M.T*rand(r,2.8,4.2)+2,els=[],frac=rand(r,.6,1),top=r()<.5;
     for(let c=0;c<n;c++){
       const x=(c+.5)*W/n;
       for(let y=pitch/2;y<H*frac&&els.length<420;y+=pitch)els.push(glyph('h',x,top?y:H-y,M));
@@ -418,9 +411,8 @@ const PAT={
     return {els};
   },
   corners(r,M,Z){
-    const kind=['sb','p','x','L','h'][ri(r,5)],m=M.L*.6,els=[],rects=[];
+    const kind=['sb','p','x','L'][ri(r,4)],m=M.L*.6,els=[],rects=[];
     for(let c=0;c<4;c++){
-      if(r()>.78)continue;
       const cx=c&1?W-m:m,cy=c&2?H-m:m;
       if(kind==='L'){
         const a=M.L*2.2,t=M.T,x=c&1?W-m-a:m,y=c&2?H-m-t:m;
@@ -432,46 +424,71 @@ const PAT={
   blocks(r,M,Z){
     const c=[26,35,52][ri(r,3)],rects=[];
     if(r()<.5){
-      const side=ri(r,2),cols=1+ri(r,2),rows=Math.ceil(H/c)+1,ph=ri(r,2),x0=side?W-cols*c:0,oy=-rand(r,0,c);
+      const side=ri(r,2),cols=1+ri(r,2),rows=Math.ceil(H/c)+1,ph=ri(r,2),x0=side?W-cols*c:0,oy=-c*(ri(r,2)?.5:0);
       for(let j=0;j<rows;j++)for(let i=0;i<cols;i++)if((i+j+ph)%2===0)rects.push([x0+i*c,oy+j*c,x0+(i+1)*c,oy+(j+1)*c]);
     }else{
-      const n=1+ri(r,3);
+      const n=1+ri(r,2),used=[];
       for(let k=0;k<n;k++){
-        const w=c*(1+ri(r,3)),h=c*(1+ri(r,3)),cr=ri(r,4);
+        let cr=ri(r,4);while(used.includes(cr))cr=(cr+1)%4;used.push(cr);
+        const w=c*(1+ri(r,3)),h=c*(1+ri(r,2));
         rects.push([cr&1?W-w:0,cr&2?H-h:0,cr&1?W:w,cr&2?H:h]);
       }
     }
-    return {rects};
+    return {rects,heavy:true};
   },
   stripes(r,M,Z){
-    const horiz=r()<.65,side=ri(r,2),total=(horiz?H:W)*rand(r,.22,.45),rects=[];let pos=0;
+    const horiz=r()<.65,side=ri(r,2),total=(horiz?H:W)*rand(r,.25,.42),rects=[];let pos=0,k=0;
+    const t1=Math.max(M.T,3)*rand(r,1.6,2.6),t2=t1*rand(r,.35,.6),g=t2*rand(r,.8,1.3);
     while(pos<total){
-      const th=Math.max(M.T,3)*rand(r,1,3.2),gap=th*rand(r,.4,1.2);
+      const th=k%2?t2:t1;
       if(horiz)rects.push(side?[0,H-pos-th,W,H-pos]:[0,pos,W,pos+th]);
       else rects.push(side?[W-pos-th,0,W-pos,H]:[pos,0,pos+th,H]);
-      pos+=th+gap;
+      pos+=th+g;k++;
     }
-    return {rects};
+    return {rects,heavy:true};
   },
   dots(r,M,Z){
-    const sd=Math.max(1.2,M.T*.6),pitch=sd*rand(r,4.5,6.5),reg=edgeRegion(r,ri(r,4),26,70),rects=[];
+    const sd=Math.max(1.2,M.T*.6),pitch=sd*rand(r,4.5,6.5),reg=edgeRegion(r,ri(r,4),30,70),rects=[];
     for(let y=reg[1]+pitch/2;y<reg[3]&&rects.length<500;y+=pitch)for(let x=reg[0]+pitch/2;x<reg[2];x+=pitch)rects.push([x,y,x+sd,y+sd]);
     return {rects};
   }
 };
-/* 1~3겹, 겹마다 패턴 1종, 한 면 규격 1종. Z=피할 영역(로고/글자) */
+const inCard=b=>{const w=Math.min(b[2],W)-Math.max(b[0],0),h=Math.min(b[3],H)-Math.max(b[1],0);return w>0&&h>0?w*h:0};
+/* 1~3겹. 겹마다 패턴 1종, 한 면 규격 1종. 큰 면(블록·줄무늬)은 최대 1겹.
+   겹이 구분되도록 큰 면=포인트색, 그 위 겹=보라, 다시 포인트색 순. 너무 비거나 많이 잘린 결과는 버리고 다시 뽑음 */
 function randLayers(seed,Z){
-  for(let att=0;att<12;att++){
-    const r=rng((seed+att*7919)>>>0),M=MODS[ri(r,3)],n=1+ri(r,3),out=[];
-    pickK(r,Object.keys(PAT),n).forEach((nm,k)=>{
-      const res=PAT[nm](r,M,Z);let d='';
-      clipRects(res.rects||[],Z).forEach(b=>d+=RP(b));
-      (res.els||[]).forEach(e=>{if(!Z.some(z=>hit(e.box,z)))d+=e.d});
-      if(d)out.push({role:k===0?'A':(r()<.55?'P':'A'),d});
+  const area=W*H;let best=[],bestScore=-1;
+  for(let att=0;att<300;att++){
+    const r=rng((seed+att*7919)>>>0),M=MODS[ri(r,3)],n=1+ri(r,3);
+    let names=pickK(r,Object.keys(PAT),n);
+    const fam=x=>x==='blocks'||x==='stripes'?'H':x==='grid'||x==='columns'||x==='band'?'D':'A';
+    if(names.filter(x=>fam(x)==='H').length>1||names.filter(x=>fam(x)==='D').length>1)continue;   /* 큰 면 1, 반복 패턴 1, 나머지는 포인트 */
+    names.sort((a,b)=>(a==='blocks'||a==='stripes'?0:1)-(b==='blocks'||b==='stripes'?0:1));   /* 큰 면이 맨 아래 */
+    const out=[],bbs=[];let ok=true,ink=0;
+    names.forEach((nm,k)=>{
+      const res=PAT[nm](r,M,Z),rects=res.rects||[],els=res.els||[];
+      const clipped=clipRects(rects,Z);
+      const keptEls=els.filter(e=>!Z.some(z=>hit(e.box,z)));
+      const total=rects.reduce((a,b)=>a+inCard(b),0)+els.reduce((a,e)=>a+e.ink,0);
+      const kept=clipped.reduce((a,b)=>a+inCard(b),0)+keptEls.reduce((a,e)=>a+e.ink,0);
+      if(!total||kept/total<(fam(nm)==='H'?.82:.55)||kept/area<.006)ok=false;   /* 큰 면은 글자 때문에 모서리가 파이면 버림 */
+      ink+=kept;
+      let d='';clipped.forEach(b=>d+=RP(b));keptEls.forEach(e=>d+=e.d);
+      out.push({role:k%2===0?'A':'P',d});
+      const bs=[...clipped,...keptEls.map(e=>e.box)];
+      bbs.push(fam(nm)==='H'||!bs.length?null:[Math.min(...bs.map(b=>b[0])),Math.min(...bs.map(b=>b[1])),Math.max(...bs.map(b=>b[2])),Math.max(...bs.map(b=>b[3]))]);
     });
-    if(out.length)return out;
+    /* 가벼운 겹끼리는 서로 많이 겹치지 않게(지저분해 보임) */
+    for(let i=0;i<bbs.length&&ok;i++)for(let j=i+1;j<bbs.length;j++){
+      const a=bbs[i],b=bbs[j];if(!a||!b)continue;
+      const w=Math.min(a[2],b[2])-Math.max(a[0],b[0]),h=Math.min(a[3],b[3])-Math.max(a[1],b[1]);
+      if(w>0&&h>0&&w*h>.25*Math.min((a[2]-a[0])*(a[3]-a[1]),(b[2]-b[0])*(b[3]-b[1])))ok=false;
+    }
+    if(!ok||ink/area<.05||ink/area>.42)continue;
+    const score=1-Math.abs(ink/area-.16);
+    if(score>bestScore){best=out;bestScore=score;if(score>.86)break}
   }
-  return [];
+  return best;
 }
 function randSvg(seed,Z,p){return randLayers(seed,Z).map(l=>`<path d="${l.d}" fill="${l.role==='P'?p.P:p.A}"/>`).join('')}
 function frontInner(s){
@@ -527,8 +544,8 @@ function backInner(s,D,warns){
   else if(i===RAND){
     /* 글자 영역(이름·직함, 연락처)을 피함. 폭은 24 단위로 올림해 입력 중 배치가 흔들리지 않게 함 */
     const q=v=>Math.ceil(v/24)*24,Z=[];
-    if(hasK||hasE||D.title)Z.push([lay.x-6,lay.ny-NS-4,Math.min(W,lay.x+q(Math.max(tot,titleW,90))+6),lay.ty+6]);
-    if(rows.length){const top=lay.ly-(rows.length-1)*PITCH;Z.push([lay.x-6,top-BS-4,Math.min(W,lay.x+13.3+q(Math.max(rowW,70))+6),lay.ly+6])}
+    if(hasK||hasE||D.title)Z.push([lay.x-10,lay.ny-NS-8,Math.min(W,lay.x+q(Math.max(tot,titleW,90))+10),lay.ty+10]);
+    if(rows.length){const top=lay.ly-(rows.length-1)*PITCH;Z.push([lay.x-10,top-BS-8,Math.min(W,lay.x+13.3+q(Math.max(rowW,70))+10),lay.ly+10])}
     dec=randSvg(s.seed,Z,p);
   }
   return dec+o;
