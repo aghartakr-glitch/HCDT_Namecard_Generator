@@ -108,6 +108,24 @@ select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1
 .sw.def{width:auto;border-radius:4px;padding:0 10px;height:30px;font-size:12px;background:var(--panel);color:var(--fg)}
 .sw.def[aria-checked=true]{outline:2px solid var(--fg);outline-offset:2px}
 .thumbs{grid-template-columns:repeat(5,minmax(0,1fr))}
+
+main{grid-template-columns:minmax(0,5fr) minmax(0,6fr)!important;gap:24px!important}
+.left{display:grid;gap:16px;align-content:start;min-width:0}
+@media (min-width:861px) and (min-height:860px){.left{position:sticky;top:16px}}
+.right{display:grid;gap:16px;align-content:start;min-width:0}
+@media (max-width:860px){main{grid-template-columns:minmax(0,1fr)!important}}
+.stage{grid-template-columns:minmax(0,1fr)!important;gap:18px!important;padding:18px!important}
+.left .exp{padding:14px}
+h2{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.04em;text-transform:none;color:var(--fg)}
+h2 .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-fg);font:700 12px/1 var(--font-mono)}
+.sh{margin:0;font-size:13px;font-weight:700}
+.hr{border-top:1px solid var(--line)}
+.pk>h3{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.picks{grid-template-columns:minmax(0,1fr);gap:20px}
+.sub{grid-template-columns:48px minmax(0,1fr)!important}
+details.spec summary{cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
+details.spec[open] summary{margin-bottom:10px}
+.sw{width:28px;height:28px}
 </style>
 
 <div class="wrap">
@@ -120,9 +138,27 @@ select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1
   </header>
 
   <main>
-    <div style="display:grid;gap:20px;min-width:0">
+    <aside class="left">
+      <section class="stage" aria-label="Preview">
+        <div class="side"><div class="cap"><span data-i="front"></span><span id="capF"></span></div><div class="card" id="prevF"></div></div>
+        <div class="side"><div class="cap"><span data-i="back"></span><span id="capB"></span></div><div class="card" id="prevB"></div></div>
+      </section>
+      <div class="warn" id="warn" hidden></div>
+      <section class="panel exp" aria-labelledby="h-exp">
+        <h2 id="h-exp" data-i="hExp"></h2>
+        <div class="btns">
+          <button type="button" class="primary" id="exPdf" data-i="exPdf"></button>
+          <button type="button" id="exSvgF" data-i="exSvgF"></button>
+          <button type="button" id="exSvgB" data-i="exSvgB"></button>
+        </div>
+        <div class="warn" id="exwarn" hidden></div>
+        <p class="note" data-i="exNote"></p>
+      </section>
+    </aside>
+
+    <div class="right">
       <section class="panel" aria-labelledby="h-info">
-        <h2 id="h-info" data-i="hInfo"></h2>
+        <h2 id="h-info"><span class="n">1</span><span data-i="hInfo"></span></h2>
         <div class="row2">
           <label><span data-i="lKo"></span><input type="text" id="ko" autocomplete="off"></label>
           <label><span data-i="lEn"></span><input type="text" id="en" autocomplete="off"></label>
@@ -138,39 +174,8 @@ select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1
         <div class="btns"><button type="button" id="clear" data-i="clear"></button><button type="button" id="sample" data-i="sample"></button></div>
       </section>
 
-      <section class="panel" aria-labelledby="h-ov">
-        <h2 id="h-ov" data-i="hOv"></h2>
-        <div class="ovr" id="ovr"></div>
-        <p class="note" data-i="ovNote"></p>
-      </section>
-
-      <section class="panel" aria-labelledby="h-cn">
-        <h2 id="h-cn" data-i="hCn"></h2>
-        <div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div>
-        <div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div>
-        <p class="note" data-i="cnNote"></p>
-      </section>
-
-      <section class="panel" aria-labelledby="h-exp">
-        <h2 id="h-exp" data-i="hExp"></h2>
-        <div class="btns">
-          <button type="button" class="primary" id="exPdf" data-i="exPdf"></button>
-          <button type="button" id="exSvgF" data-i="exSvgF"></button>
-          <button type="button" id="exSvgB" data-i="exSvgB"></button>
-        </div>
-        <div class="warn" id="exwarn" hidden></div>
-        <p class="note" data-i="exNote"></p>
-      </section>
-    </div>
-
-    <div style="display:grid;gap:20px;min-width:0">
-      <section class="stage" aria-label="Preview">
-        <div class="side"><div class="cap"><span data-i="front"></span><span id="capF"></span></div><div class="card" id="prevF"></div></div>
-        <div class="side"><div class="cap"><span data-i="back"></span><span id="capB"></span></div><div class="card" id="prevB"></div></div>
-      </section>
-      <div class="warn" id="warn" hidden></div>
       <section class="panel" aria-labelledby="h-pick">
-        <h2 id="h-pick" data-i="hPick"></h2>
+        <h2 id="h-pick"><span class="n">2</span><span data-i="hPick"></span></h2>
         <div class="pk">
           <h3 data-i="accent"></h3>
           <div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div>
@@ -190,8 +195,20 @@ select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1
         </div>
         <p class="note" data-i="pickNote"></p>
       </section>
-      <section class="panel" aria-labelledby="h-spec">
-        <h2 id="h-spec" data-i="hSpec"></h2>
+
+      <section class="panel" aria-labelledby="h-ov">
+        <h2 id="h-ov"><span class="n">3</span><span data-i="hOv"></span></h2>
+        <div class="ovr" id="ovr"></div>
+        <p class="note" data-i="ovNote"></p>
+        <div class="hr"></div>
+        <h3 class="sh" data-i="hCn"></h3>
+        <div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div>
+        <div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div>
+        <p class="note" data-i="cnNote"></p>
+      </section>
+
+      <details class="panel spec">
+        <summary data-i="hSpec"></summary>
         <div class="tw"><table>
           <tr><th data-i="thItem"></th><th data-i="thVal"></th></tr>
           <tr><td data-i="sSize"></td><td>312.3 × 173.6 = 90 × 50 mm (1.80)</td></tr>
@@ -201,7 +218,7 @@ select{font:inherit;font-size:14px;color:var(--fg);background:var(--bg);border:1
           <tr><td data-i="sCn"></td><td data-i="sCnV"></td></tr>
           <tr><td data-i="sBody"></td><td data-i="sBodyV"></td></tr>
         </table></div>
-      </section>
+      </details>
     </div>
   </main>
 </div>
@@ -233,14 +250,14 @@ const I={
 ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 3가지 버전 · 로고와 도형은 PDF 원본 벡터',hInfo:'정보 입력',lKo:'한글 이름',lEn:'영문 이름',lTitle:'직책',lTitleIn:'직책을 직접 입력',tCustom:'직접 입력…',tNone:'선택 안 함',
  email:'이메일',office:'사무실 전화',mobile:'휴대전화',web:'웹사이트',xlab:'추가 줄 머리글자',xval:'추가 줄 (주소 등)',
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
- hOv:'뒷면 글자·바 색상',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 1버전만)뿐이고, 한글 이름은 항상 검정입니다.',
+ hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 1버전만)뿐이고, 한글 이름은 항상 검정입니다.',
  oLab:'머리글자',oLabS:'E · O · P · W',oBar:'이름 사이 바',oBarS:'한글 | 영문 사이의 세로선',oEn:'영문 이름',oEnS:'Gildong Hong',oTi:'직책',oTiS:'Associate Professor 등',def:'가이드 기본',
  hCn:'이름 사이 연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'기본은 가이드의 바(|)입니다. 색은 위 「이름 사이 바」에서 바꿉니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
  hExp:'내보내기',exPdf:'PDF (앞+뒤 2쪽)',exSvgF:'앞면 SVG',exSvgB:'뒷면 SVG',exNote:'PDF와 SVG 모두 벡터이며 글자는 윤곽선으로 변환됩니다(Helvetica Neue LT Std, Spoqa Han Sans Neo 내장). 도련(재단 여유) 3mm는 포함되지 않습니다.',
  front:'앞면',back:'뒷면',version:'버전',design:'디자인',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
  V:['풀 로고','사다리꼴','+ –'],VS:['깔끔 · 남색 + 색 포인트','사다리꼴 강조','+ – 활용'],
- hPick:'버전 · 디자인 · 색상',
+ hPick:'버전 · 디자인 · 포인트색',
  pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2·3버전은 보라 + 포인트색 한 가지 세트입니다.',
  hSpec:'원본 사양 (가이드 261020, 15–16쪽에서 추출)',thItem:'항목',thVal:'값',sSize:'카드 크기',sColor:'색상',sVer:'버전',sVerV:'1 풀 로고(남색 고정, 로고 + UNIST) · 2 사다리꼴 강조(보라 + 포인트 1색) · 3 + – 활용',
  sName:'이름',sNameV:'한글 Spoqa Han Sans Neo Bold · 영문 Helvetica Neue LT Std Bold, 14.53',
@@ -253,14 +270,14 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 3가지 �
 en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261020) · 3 versions · logo and shapes are the original PDF vectors',hInfo:'Your details',lKo:'Korean name',lEn:'English name',lTitle:'Title',lTitleIn:'Type your title',tCustom:'Custom…',tNone:'None',
  email:'Email',office:'Office phone',mobile:'Mobile',web:'Website',xlab:'Extra line label',xval:'Extra line (address, etc.)',
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
- hOv:'Back text & bar colors',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy for version 1 only); the Korean name is always black.',
+ hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy for version 1 only); the Korean name is always black.',
  oLab:'Initials',oLabS:'E · O · P · W',oBar:'Bar between names',oBarS:'Vertical line between names',oEn:'English name',oEnS:'Gildong Hong',oTi:'Title',oTiS:'e.g. Associate Professor',def:'Guide default',
  hCn:'Connector between names',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The default is the guide’s bar (|). Change its color under “Bar between names” above. The gap stays within the guide’s min–max range (13.0–19.6).',
  hExp:'Export',exPdf:'PDF (front + back)',exSvgF:'Front SVG',exSvgB:'Back SVG',exNote:'Both PDF and SVG are vector, with text converted to outlines (Helvetica Neue LT Std and Spoqa Han Sans Neo built in). The 3 mm bleed is not included.',
  front:'Front',back:'Back',version:'Version',design:'Design',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
  V:['Full logo','Trapezoid','+ –'],VS:['Clean · navy + accent','Trapezoid emphasis','+ – graphics'],
- hPick:'Version, design & color',
+ hPick:'Version, design & accent',
  pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Versions 2 and 3 are purple + one accent as a set.',
  hSpec:'Original specs (guide 261020, pp. 15–16)',thItem:'Item',thVal:'Value',sSize:'Card size',sColor:'Colors',sVer:'Versions',sVerV:'1 Full logo (navy fixed, logo + UNIST) · 2 Trapezoid (purple + one accent) · 3 + – graphics',
  sName:'Name',sNameV:'Korean Spoqa Han Sans Neo Bold · Latin Helvetica Neue LT Std Bold, 14.53',
