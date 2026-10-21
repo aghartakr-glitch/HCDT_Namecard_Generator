@@ -54,7 +54,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .pk{display:grid;gap:10px}
 .pk>h3{margin:0;font-size:13px;font-weight:700}
 .sub{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center}
-.sub[hidden]{display:none}
+.sub[hidden],.vt[hidden]{display:none}
 .sub>span{font-size:12px;color:var(--muted)}
 .thumbs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
 @media (max-width:480px){.thumbs{grid-template-columns:repeat(4,minmax(0,1fr))}}
@@ -279,14 +279,14 @@ const NAMES={[PUR]:['보라','Purple'],[NAVY]:['남색','Navy'],[BLK]:['검정',
 const ACC=[OR,YE,GR,CY];
 const CORE_B=[{k:'V1B4',x:32.2,ny:39.6,ty:54.5,ly:145.7,lab:BLK,bar:NAVY},{k:'V1B2',x:32.2,ny:39.7,ty:54.5,ly:145.8,lab:BLK,bar:NAVY},{k:'V1B3',x:32.2,ny:39.6,ty:54.5,ly:121.9,lab:BLK,bar:NAVY},{k:'V1B1',x:32.2,ny:39.7,ty:54.5,ly:121.9,lab:BLK,bar:'A'}];
 const VERS=[
- {n:1,f:[{k:'V1F1',mono:1},{k:'V1F2',mono:1}],b:CORE_B},
- {n:2,f:[{k:'CF1'}],b:[CORE_B[0],CORE_B[3]]},
+ {n:1,f:[{k:'V1F1',mono:1},{k:'V1F2',mono:1}],b:[CORE_B[1],CORE_B[2]]},
+ {n:2,f:[{k:'CF1'}],b:[]},
  {n:3,
-  f:[{k:'V2F2'},{k:'V2S2'},{k:'V2S1'},{k:'V2F3'},{k:'V2F5'},{k:'V2F4'},{k:'V2F1'}],
-  b:[{k:'V2B1',x:130.2,ny:39.7,ty:54.5,ly:142.3,lab:BLK,bar:'A'},{k:'V2B2',x:32.2,ny:39.7,ty:54.5,ly:122.0,lab:'A',bar:'A'},{k:'V2B3',x:104.9,ny:48.7,ty:63.5,ly:145.6,lab:BLK,bar:'A'},{k:'V2B4',x:32.2,ny:39.6,ty:54.5,ly:132.2,lab:'A',bar:'A'},{k:'V2B5',x:118.9,ny:48.7,ty:63.5,ly:145.6,lab:BLK,bar:'A'}]},
+  f:[{k:'V2F2'},{k:'V2F1'}],
+  b:[{k:'V2B1',x:130.2,ny:39.7,ty:54.5,ly:142.3,lab:BLK,bar:'A'},{k:'V2B2',x:32.2,ny:39.7,ty:54.5,ly:122.0,lab:'A',bar:'A'}]},
  {n:4,
-  f:[{k:'V3F3'},{k:'V3F1'},{k:'V3F2'},{k:'V3F4'}],
-  b:[{k:'V3B3',x:41.1,ny:45.3,ty:60.1,ly:138.3,lab:'A',bar:'A'},{k:'V3B1',x:41.1,ny:45.4,ty:60.2,ly:138.4,lab:PUR,bar:'A'},{k:'V3B4',x:122.7,ny:45.3,ty:60.1,ly:141.9,lab:'A',bar:'A'},{k:'V3B2',x:122.7,ny:45.4,ty:60.2,ly:138.4,lab:'A',bar:'A'}]}
+  f:[{k:'V3F3'},{k:'V3F4'}],
+  b:[{k:'V3B3',x:41.1,ny:45.3,ty:60.1,ly:138.3,lab:'A',bar:'A'},{k:'V3B4',x:122.7,ny:45.3,ty:60.1,ly:141.9,lab:'A',bar:'A'}]}
 ];
 const I={
 ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 버전 · 로고와 도형은 PDF 원본 벡터',hInfo:'정보 입력',lKo:'한글 이름',lEn:'영문 이름',lTitle:'직책',lTitleIn:'직책을 직접 입력',tCustom:'직접 입력…',tNone:'선택 안 함',
@@ -464,7 +464,7 @@ function render(){
   $('capB').textContent=t('V')[st.b.v-1]+' · '+t('cd',st.b.i+1);
   ['f','b'].forEach(k=>{
     const s=st[k],K=k.toUpperCase(),V=VERS[s.v-1],list=V[k];
-    [...$('vt'+K).children].forEach((el,j)=>{el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=(j+1)+' · '+t('V')[j];el.lastChild.textContent=t('VS')[j]});
+    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length;el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=(j+1)+' · '+t('V')[j];el.lastChild.textContent=t('VS')[j]});
     const box=$('th'+K);
     if(box.children.length!==list.length||box.dataset.v!==String(s.v)){
       box.innerHTML='';box.dataset.v=s.v;
@@ -607,7 +607,7 @@ function init(){
   if(saved&&saved.st){
     ['f','b'].forEach(k=>{
       const q=saved.st[k]||{},v=Math.min(Math.max(q.v|0,1),4),V=VERS[v-1];
-      st[k].v=v;st[k].i=Math.min(Math.max(q.i|0,0),V[k].length-1);
+      if(!V[k].length){st[k].v=1;st[k].i=0}else{st[k].v=v;st[k].i=Math.min(Math.max(q.i|0,0),V[k].length-1)}
     });
     if(ACC.includes(saved.st.a))st.a=saved.st.a;
     OVK.forEach(k=>{const c=saved.st.ov&&saved.st.ov[k];st.ov[k]=(c==='A'||c===BLK||c===NAVY||c===PUR)?c:null});
