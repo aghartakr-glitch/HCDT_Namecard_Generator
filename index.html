@@ -128,7 +128,7 @@ details.spec[open] summary{margin-bottom:10px}
 .sw{width:28px;height:28px}
 
 main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
-.zone{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.zone{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:clip}
 .zone.one{grid-template-columns:minmax(0,1fr)}
 .zone>.zh{grid-column:1/-1;display:flex;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--panel)}
 .zone h2{font-size:14px;letter-spacing:0;margin:0}
@@ -146,12 +146,21 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .vt small,.og>span small{display:none}
 .vt{padding-top:8px;padding-bottom:8px}
 
-.zone.one:first-of-type{position:sticky;top:0;z-index:5;box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.zone.one:first-of-type{box-shadow:0 4px 14px rgba(0,0,0,.06)}
 .zone.one:first-of-type .zh{border-bottom:0;padding:14px 18px 0}
 .zone.one:first-of-type h2{font-size:18px;font-weight:800}
 .zone.one:first-of-type .zc{padding:10px 18px 16px}
 .zone.one:first-of-type .sw{width:44px;height:44px}
 .zone.one:first-of-type .swatches{gap:16px}
+
+.og{grid-template-columns:132px minmax(0,1fr);align-items:center;gap:8px}
+.og>span{white-space:nowrap}
+.ovr{gap:10px!important}
+.og .sw:not(.def){width:26px;height:26px}
+.og.crow .cb{padding:5px 9px;font-size:12px}
+.og .gap{display:flex;align-items:center;gap:10px;margin:0}
+.og .gap input{flex:1;min-width:120px}
+.blk .hr{display:none}
 </style>
 
 <div class="wrap">
@@ -211,10 +220,8 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
         <div class="blk">
           <h3 class="sh" data-i="hOv"></h3>
           <div class="ovr" id="ovr"></div>
-        <div class="hr"></div>
-        <h3 class="sh" data-i="hCn"></h3>
-        <div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div>
-        <div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div>
+        <div class="og crow"><span data-i="hCn"></span><div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div></div>
+        <div class="og crow"><span></span><div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div></div>
         </div>
       </div>
     </section>
@@ -275,7 +282,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 �
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
  hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 앞면이 1버전일 때만)뿐이고, 한글 이름은 항상 검정입니다.',
  oLab:'머리글자',oLabS:'E · O · P · W',oBar:'이름 사이 바',oBarS:'한글 | 영문 사이의 세로선',oEn:'영문 이름',oEnS:'Gildong Hong',oTi:'직책',oTiS:'Associate Professor 등',def:'가이드 기본',
- hCn:'이름 사이 연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
+ hCn:'연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'기본은 가이드의 바(|)입니다. 색은 위 「이름 사이 바」에서 바꿉니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
  hExp:'내보내기',exPdf:'PDF (앞+뒤 2쪽)',exSvgF:'앞면 SVG',exSvgB:'뒷면 SVG',exNote:'PDF와 SVG 모두 벡터이며 글자는 윤곽선으로 변환됩니다(Helvetica Neue LT Std, Spoqa Han Sans Neo 내장). 도련(재단 여유) 3mm는 포함되지 않습니다.',
  front:'앞면',back:'뒷면',version:'버전',design:'디자인',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
@@ -295,7 +302,7 @@ en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261020) · 4 versions �
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
  hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy only when the front is version 1); the Korean name is always black.',
  oLab:'Initials',oLabS:'E · O · P · W',oBar:'Bar between names',oBarS:'Vertical line between names',oEn:'English name',oEnS:'Gildong Hong',oTi:'Title',oTiS:'e.g. Associate Professor',def:'Guide default',
- hCn:'Connector between names',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
+ hCn:'Connector',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The default is the guide’s bar (|). Change its color under “Bar between names” above. The gap stays within the guide’s min–max range (13.0–19.6).',
  hExp:'Export',exPdf:'PDF (front + back)',exSvgF:'Front SVG',exSvgB:'Back SVG',exNote:'Both PDF and SVG are vector, with text converted to outlines (Helvetica Neue LT Std and Spoqa Han Sans Neo built in). The 3 mm bleed is not included.',
  front:'Front',back:'Back',version:'Version',design:'Design',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
@@ -494,12 +501,9 @@ function renderOv(){
     head.firstChild.textContent=t(OVL[k]);head.lastChild.textContent=t(OVS[k]);
     if(sw.dataset.v!==String(nv)){
       sw.innerHTML='';sw.dataset.v=String(nv);
-      const b0=document.createElement('button');b0.type='button';b0.className='sw def';b0.setAttribute('role','radio');b0.onclick=()=>{st.ov[k]=null;render()};sw.appendChild(b0);
-      opts.forEach(c=>{const b=mkSw(sw,c,()=>{st.ov[k]=c;render()});if(c===BLK)b.classList.add('k')});
+      opts.forEach(c=>{const b=mkSw(sw,c,()=>{st.ov[k]=st.ov[k]===c?null:c;render()});if(c===BLK)b.classList.add('k')});
     }
-    sw.firstChild.textContent=t('def');
-    sw.firstChild.setAttribute('aria-checked',st.ov[k]==null);
-    [...sw.children].slice(1).forEach((el,j)=>{const c=opts[j];el.style.setProperty('--c',c==='A'?st.a:c);el.setAttribute('aria-checked',st.ov[k]===c);el.title=ovName(c);el.setAttribute('aria-label',ovName(c))});
+    [...sw.children].forEach((el,j)=>{const c=opts[j];el.style.setProperty('--c',c==='A'?st.a:c);el.setAttribute('aria-checked',st.ov[k]===c);el.title=ovName(c);el.setAttribute('aria-label',ovName(c))});
   });
 }
 const TITLES=[['Full Professor','교수'],['Associate Professor','부교수'],['Assistant Professor','조교수'],['Postdoctoral Researcher','포닥'],['Ph.D. Student','박사과정'],['M.S. Student','석사과정'],['Undergraduate Student','학부생']];
