@@ -5,8 +5,8 @@
 <style>
 /* 레이아웃: 좌측 입력 패널 + 우측 앞/뒷면 미리보기, 하단에 시안·색상 선택. 카드는 실제 비율(90×50mm) 유지 */
 :root{
-  --bg:#f3f2f6; --panel:#ffffff; --fg:#17151c; --muted:#6a6675; --line:#dedce6;
-  --accent:#6b00ff; --accent-fg:#ffffff; --accent-soft:#ece3ff; --stage:#e6e4ec; --warn:#a8460a; --warn-bg:#fff0e3;
+  --bg:#ffffff; --panel:#ffffff; --fg:#17151c; --muted:#6b6b6b; --line:#e2e2e2;
+  --accent:#6b00ff; --accent-fg:#ffffff; --accent-soft:#ece3ff; --stage:#ffffff; --warn:#a8460a; --warn-bg:#fff0e3;
   --font-ui:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
 }
@@ -145,6 +145,13 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 @media (max-width:860px){.zone{grid-template-columns:minmax(0,1fr)}.zl{border-right:0;border-bottom:1px solid var(--line)}.zl .pv{position:static}}
 .vt small,.og>span small{display:none}
 .vt{padding-top:8px;padding-bottom:8px}
+
+.zone.one:first-of-type{position:sticky;top:0;z-index:5;border:2px solid var(--fg);box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.zone.one:first-of-type .zh{border-bottom:0;padding:14px 18px 0}
+.zone.one:first-of-type h2{font-size:18px;font-weight:800}
+.zone.one:first-of-type .zc{padding:10px 18px 16px}
+.zone.one:first-of-type .sw{width:44px;height:44px}
+.zone.one:first-of-type .swatches{gap:16px}
 </style>
 
 <div class="wrap">
