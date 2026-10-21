@@ -422,12 +422,12 @@ function conn(k,cx,ny,fill){
 }
 const NS=14.53,BS=8.41,PITCH=13.13,LIM=295;
 function resolveOv(key,d,C){
-  const g=(v)=>v==='A'?C.A:v;
+  const g=(v)=>v==='A'?C.A:(v===NAVY&&st.b.v!==1?PUR:v);
   return {lab:g(st.ov.lab||d.lab),bar:g(st.ov.bar||d.bar),en:g(st.ov.en||BLK),ti:g(st.ov.ti||BLK)};
 }
 function backSvgInner(s,D,warns){
   const d=des(s,'b'),a=A.cards[d.k],C=colorsOf(),o2=resolveOv(d.k,d,C);
-  const col=r=>r==='A'?C.A:r==='N'?NAVY:PUR;
+  const col=r=>r==='A'?C.A:r==='N'?(s.v===1?NAVY:PUR):PUR;
   let o='';
   const hasK=!!D.ko,hasE=!!D.en,both=hasK&&hasE;
   let size=NS,gap=both?st.gap:0;
