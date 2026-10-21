@@ -126,6 +126,23 @@ h2 .n{display:inline-grid;place-items:center;width:22px;height:22px;border-radiu
 details.spec summary{cursor:pointer;font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted)}
 details.spec[open] summary{margin-bottom:10px}
 .sw{width:28px;height:28px}
+
+main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20px!important}
+.zone{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);background:var(--panel);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.zone.one{grid-template-columns:minmax(0,1fr)}
+.zone>.zh{grid-column:1/-1;display:flex;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);background:var(--panel)}
+.zone h2{font-size:14px;letter-spacing:0;margin:0}
+.tag{display:inline-block;padding:3px 12px;border-radius:999px;font-size:13px;font-weight:700}
+.tag.f{background:var(--accent);color:var(--accent-fg)}
+.tag.b{background:var(--fg);color:var(--bg)}
+.zc{padding:16px 18px;display:grid;gap:10px}
+.zl{padding:18px;background:var(--stage);border-right:1px solid var(--line)}
+.zl .pv{display:grid;gap:12px;position:sticky;top:16px}
+.zr{padding:18px;display:grid;gap:22px;align-content:start;min-width:0}
+.blk{display:grid;gap:12px;min-width:0}
+.blk+.blk{border-top:1px solid var(--line);padding-top:20px}
+.zr .sub{grid-template-columns:48px minmax(0,1fr)}
+@media (max-width:860px){.zone{grid-template-columns:minmax(0,1fr)}.zl{border-right:0;border-bottom:1px solid var(--line)}.zl .pv{position:static}}
 </style>
 
 <div class="wrap">
@@ -138,28 +155,32 @@ details.spec[open] summary{margin-bottom:10px}
   </header>
 
   <main>
-    <aside class="left">
-      <section class="stage" aria-label="Preview">
-        <div class="side"><div class="cap"><span data-i="front"></span><span id="capF"></span></div><div class="card" id="prevF"></div></div>
-        <div class="side"><div class="cap"><span data-i="back"></span><span id="capB"></span></div><div class="card" id="prevB"></div></div>
-      </section>
-      <div class="warn" id="warn" hidden></div>
-      <section class="panel exp" aria-labelledby="h-exp">
-        <h2 id="h-exp" data-i="hExp"></h2>
-        <div class="btns">
-          <button type="button" class="primary" id="exPdf" data-i="exPdf"></button>
-          <button type="button" id="exSvgF" data-i="exSvgF"></button>
-          <button type="button" id="exSvgB" data-i="exSvgB"></button>
-        </div>
-        <div class="warn" id="exwarn" hidden></div>
-        <p class="note" data-i="exNote"></p>
-      </section>
-    </aside>
+    <section class="zone one" aria-labelledby="z-col">
+      <div class="zh"><h2 id="z-col" data-i="accent"></h2></div>
+      <div class="zc">
+        <div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div>
+        <p class="note" data-i="accNote"></p>
+      </div>
+    </section>
 
-    <div class="right">
-      <section class="panel" aria-labelledby="h-info">
-        <h2 id="h-info"><span class="n">1</span><span data-i="hInfo"></span></h2>
-        <div class="row2">
+    <section class="zone" aria-labelledby="z-front">
+      <div class="zh"><h2 id="z-front"><span class="tag f" data-i="front"></span></h2></div>
+      <div class="zl"><div class="pv"><div class="side"><div class="cap"><span id="capF"></span></div><div class="card" id="prevF"></div></div></div></div>
+      <div class="zr">
+        <div class="pk">
+          <div class="sub"><span data-i="version"></span><div class="vtabs" id="vtF" role="radiogroup" aria-label="Version"></div></div>
+          <div class="sub"><span data-i="design"></span><div class="thumbs" id="thF"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="zone" aria-labelledby="z-back">
+      <div class="zh"><h2 id="z-back"><span class="tag b" data-i="back"></span></h2></div>
+      <div class="zl"><div class="pv"><div class="side"><div class="cap"><span id="capB"></span></div><div class="card" id="prevB"></div></div><div class="warn" id="warn" hidden></div></div></div>
+      <div class="zr">
+        <div class="blk">
+          <h3 class="sh" data-i="hInfo"></h3>
+          <div class="row2">
           <label><span data-i="lKo"></span><input type="text" id="ko" autocomplete="off"></label>
           <label><span data-i="lEn"></span><input type="text" id="en" autocomplete="off"></label>
         </div>
@@ -170,44 +191,43 @@ details.spec[open] summary{margin-bottom:10px}
         <div class="fld"><b>P</b><input type="text" id="mobile" data-ia="mobile" data-ip="mobile" autocomplete="off"></div>
         <div class="fld"><b>W</b><input type="text" id="web" data-ia="web" data-ip="web" autocomplete="off"></div>
         <div class="fld"><input type="text" id="xlab" class="lab" maxlength="2" data-ia="xlab" placeholder="A"><input type="text" id="xval" data-ia="xval" data-ip="xval" autocomplete="off"></div>
-        <p class="note" data-i="noteRows"></p>
-        <div class="btns"><button type="button" id="clear" data-i="clear"></button><button type="button" id="sample" data-i="sample"></button></div>
-      </section>
-
-      <section class="panel" aria-labelledby="h-pick">
-        <h2 id="h-pick"><span class="n">2</span><span data-i="hPick"></span></h2>
-        <div class="pk">
-          <h3 data-i="accent"></h3>
-          <div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div>
-          <p class="note" data-i="accNote"></p>
+          <p class="note" data-i="noteRows"></p>
+          <div class="btns"><button type="button" id="clear" data-i="clear"></button><button type="button" id="sample" data-i="sample"></button></div>
         </div>
-        <div class="picks">
+        <div class="blk">
+          <h3 class="sh" data-i="hDesignB"></h3>
           <div class="pk">
-            <h3 data-i="front"></h3>
-            <div class="sub"><span data-i="version"></span><div class="vtabs" id="vtF" role="radiogroup" aria-label="Version"></div></div>
-            <div class="sub"><span data-i="design"></span><div class="thumbs" id="thF"></div></div>
-          </div>
-          <div class="pk">
-            <h3 data-i="back"></h3>
             <div class="sub"><span data-i="version"></span><div class="vtabs" id="vtB" role="radiogroup" aria-label="Version"></div></div>
             <div class="sub"><span data-i="design"></span><div class="thumbs" id="thB"></div></div>
           </div>
         </div>
-        <p class="note" data-i="pickNote"></p>
-      </section>
-
-      <section class="panel" aria-labelledby="h-ov">
-        <h2 id="h-ov"><span class="n">3</span><span data-i="hOv"></span></h2>
-        <div class="ovr" id="ovr"></div>
+        <div class="blk">
+          <h3 class="sh" data-i="hOv"></h3>
+          <div class="ovr" id="ovr"></div>
         <p class="note" data-i="ovNote"></p>
         <div class="hr"></div>
         <h3 class="sh" data-i="hCn"></h3>
         <div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div>
         <div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div>
         <p class="note" data-i="cnNote"></p>
-      </section>
+        </div>
+      </div>
+    </section>
 
-      <details class="panel spec">
+    <section class="zone one" aria-labelledby="z-exp">
+      <div class="zh"><h2 id="z-exp" data-i="hExp"></h2></div>
+      <div class="zc">
+        <div class="btns">
+          <button type="button" class="primary" id="exPdf" data-i="exPdf"></button>
+          <button type="button" id="exSvgF" data-i="exSvgF"></button>
+          <button type="button" id="exSvgB" data-i="exSvgB"></button>
+        </div>
+        <div class="warn" id="exwarn" hidden></div>
+        <p class="note" data-i="exNote"></p>
+      </div>
+    </section>
+
+    <details class="panel spec">
         <summary data-i="hSpec"></summary>
         <div class="tw"><table>
           <tr><th data-i="thItem"></th><th data-i="thVal"></th></tr>
@@ -219,7 +239,6 @@ details.spec[open] summary{margin-bottom:10px}
           <tr><td data-i="sBody"></td><td data-i="sBodyV"></td></tr>
         </table></div>
       </details>
-    </div>
   </main>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -235,30 +254,30 @@ const $=id=>document.getElementById(id);
 const NAMES={[PUR]:['보라','Purple'],[NAVY]:['남색','Navy'],[BLK]:['검정','Black'],[CY]:['시안','Cyan'],[OR]:['오렌지','Orange'],[GR]:['그린','Green'],[YE]:['옐로','Yellow']};
 /* 버전별 시안: 앞면(f)·뒷면(b) 키, 앞면 기본 포인트색(la=로고, pa=패턴), 뒷면 기본 글자색 규칙 */
 const ACC=[OR,YE,GR,CY];
-const CORE_B=[{k:'V1B1',x:32.2,ny:39.7,ty:54.5,ly:121.9,lab:BLK,bar:'A'},{k:'V1B2',x:32.2,ny:39.7,ty:54.5,ly:145.8,lab:BLK,bar:NAVY},{k:'V1B3',x:32.2,ny:39.6,ty:54.5,ly:121.9,lab:BLK,bar:NAVY},{k:'V1B4',x:32.2,ny:39.6,ty:54.5,ly:145.7,lab:BLK,bar:NAVY}];
+const CORE_B=[{k:'V1B4',x:32.2,ny:39.6,ty:54.5,ly:145.7,lab:BLK,bar:NAVY},{k:'V1B2',x:32.2,ny:39.7,ty:54.5,ly:145.8,lab:BLK,bar:NAVY},{k:'V1B3',x:32.2,ny:39.6,ty:54.5,ly:121.9,lab:BLK,bar:NAVY},{k:'V1B1',x:32.2,ny:39.7,ty:54.5,ly:121.9,lab:BLK,bar:'A'}];
 const VERS=[
  {n:1,f:[{k:'V1F1',mono:1},{k:'V1F2',mono:1}],b:CORE_B},
  {n:2,f:[{k:'CF1'}],b:CORE_B},
  {n:3,
-  f:[{k:'V2F1'},{k:'V2F2'},{k:'V2S1'},{k:'V2S2'},{k:'V2F3'},{k:'V2F4'},{k:'V2F5'}],
+  f:[{k:'V2F2'},{k:'V2S2'},{k:'V2S1'},{k:'V2F3'},{k:'V2F5'},{k:'V2F4'},{k:'V2F1'}],
   b:[{k:'V2B1',x:130.2,ny:39.7,ty:54.5,ly:142.3,lab:BLK,bar:'A'},{k:'V2B2',x:32.2,ny:39.7,ty:54.5,ly:122.0,lab:'A',bar:'A'},{k:'V2B3',x:104.9,ny:48.7,ty:63.5,ly:145.6,lab:BLK,bar:'A'},{k:'V2B4',x:32.2,ny:39.6,ty:54.5,ly:132.2,lab:'A',bar:'A'},{k:'V2B5',x:118.9,ny:48.7,ty:63.5,ly:145.6,lab:BLK,bar:'A'}]},
  {n:4,
-  f:[{k:'V3F1'},{k:'V3F2'},{k:'V3F3'},{k:'V3F4'}],
-  b:[{k:'V3B1',x:41.1,ny:45.4,ty:60.2,ly:138.4,lab:PUR,bar:'A'},{k:'V3B2',x:122.7,ny:45.4,ty:60.2,ly:138.4,lab:'A',bar:'A'},{k:'V3B3',x:41.1,ny:45.3,ty:60.1,ly:138.3,lab:'A',bar:'A'},{k:'V3B4',x:122.7,ny:45.3,ty:60.1,ly:141.9,lab:'A',bar:'A'}]}
+  f:[{k:'V3F3'},{k:'V3F1'},{k:'V3F2'},{k:'V3F4'}],
+  b:[{k:'V3B3',x:41.1,ny:45.3,ty:60.1,ly:138.3,lab:'A',bar:'A'},{k:'V3B1',x:41.1,ny:45.4,ty:60.2,ly:138.4,lab:PUR,bar:'A'},{k:'V3B4',x:122.7,ny:45.3,ty:60.1,ly:141.9,lab:'A',bar:'A'},{k:'V3B2',x:122.7,ny:45.4,ty:60.2,ly:138.4,lab:'A',bar:'A'}]}
 ];
 const I={
 ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 버전 · 로고와 도형은 PDF 원본 벡터',hInfo:'정보 입력',lKo:'한글 이름',lEn:'영문 이름',lTitle:'직책',lTitleIn:'직책을 직접 입력',tCustom:'직접 입력…',tNone:'선택 안 함',
  email:'이메일',office:'사무실 전화',mobile:'휴대전화',web:'웹사이트',xlab:'추가 줄 머리글자',xval:'추가 줄 (주소 등)',
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
- hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 1버전만)뿐이고, 한글 이름은 항상 검정입니다.',
+ hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 앞면이 1버전일 때만)뿐이고, 한글 이름은 항상 검정입니다.',
  oLab:'머리글자',oLabS:'E · O · P · W',oBar:'이름 사이 바',oBarS:'한글 | 영문 사이의 세로선',oEn:'영문 이름',oEnS:'Gildong Hong',oTi:'직책',oTiS:'Associate Professor 등',def:'가이드 기본',
  hCn:'이름 사이 연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'기본은 가이드의 바(|)입니다. 색은 위 「이름 사이 바」에서 바꿉니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
  hExp:'내보내기',exPdf:'PDF (앞+뒤 2쪽)',exSvgF:'앞면 SVG',exSvgB:'뒷면 SVG',exNote:'PDF와 SVG 모두 벡터이며 글자는 윤곽선으로 변환됩니다(Helvetica Neue LT Std, Spoqa Han Sans Neo 내장). 도련(재단 여유) 3mm는 포함되지 않습니다.',
  front:'앞면',back:'뒷면',version:'버전',design:'디자인',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
  V:['풀 로고','색 로고','사다리꼴','+ –'],VS:['깔끔 · 남색 + 색 포인트','색 로고만','사다리꼴 강조 · 짧은 로고 포함','+ – 활용'],
- hPick:'버전 · 디자인 · 포인트색',
- pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2버전은 색 로고만 있는 앞면이고 뒷면은 1버전과 같되 남색 자리는 보라로 바뀝니다(남색은 1버전 전용). 3·4버전은 보라 + 포인트색 한 가지 세트입니다. 3버전 앞면 3·4번은 HCDT 짧은 로고를 씁니다.',
+ hPick:'버전 · 디자인 · 포인트색',hDesignB:'뒷면 디자인',
+ pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2버전은 색 로고만 있는 앞면이고 뒷면은 1버전과 같습니다. 입체가 아닌 납작한 사다리꼴 도형은 남색만 씁니다. 3·4버전은 보라 + 포인트색 한 가지 세트입니다. 3버전 앞면 3·4번은 HCDT 짧은 로고를 씁니다.',
  hSpec:'원본 사양 (가이드 261020, 15–17쪽에서 추출)',thItem:'항목',thVal:'값',sSize:'카드 크기',sColor:'색상',sVer:'버전',sVerV:'1 풀 로고(남색 고정, 로고 + UNIST) · 2 색 로고 · 3 사다리꼴 강조(짧은 로고 포함) · 4 + – 활용',
  sName:'이름',sNameV:'한글 Spoqa Han Sans Neo Bold · 영문 Helvetica Neue LT Std Bold, 14.53',
  sCn:'이름 사이 바',sCnV:'바 굵기 0.86 × 길이 10.1, 간격 13.0 / 16.3 / 19.6',
@@ -270,15 +289,15 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 �
 en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261020) · 4 versions · logo and shapes are the original PDF vectors',hInfo:'Your details',lKo:'Korean name',lEn:'English name',lTitle:'Title',lTitleIn:'Type your title',tCustom:'Custom…',tNone:'None',
  email:'Email',office:'Office phone',mobile:'Mobile',web:'Website',xlab:'Extra line label',xval:'Extra line (address, etc.)',
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
- hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy for version 1 only); the Korean name is always black.',
+ hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy only when the front is version 1); the Korean name is always black.',
  oLab:'Initials',oLabS:'E · O · P · W',oBar:'Bar between names',oBarS:'Vertical line between names',oEn:'English name',oEnS:'Gildong Hong',oTi:'Title',oTiS:'e.g. Associate Professor',def:'Guide default',
  hCn:'Connector between names',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The default is the guide’s bar (|). Change its color under “Bar between names” above. The gap stays within the guide’s min–max range (13.0–19.6).',
  hExp:'Export',exPdf:'PDF (front + back)',exSvgF:'Front SVG',exSvgB:'Back SVG',exNote:'Both PDF and SVG are vector, with text converted to outlines (Helvetica Neue LT Std and Spoqa Han Sans Neo built in). The 3 mm bleed is not included.',
  front:'Front',back:'Back',version:'Version',design:'Design',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
  V:['Full logo','Color logo','Trapezoid','+ –'],VS:['Clean · navy + accent','Color logo only','Trapezoid · incl. short logo','+ – graphics'],
- hPick:'Version, design & accent',
- pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Version 2 is a color-logo-only front that shares version 1’s backs, with navy replaced by purple (navy is version 1 only). Versions 3 and 4 are purple + one accent as a set. Version 3 fronts 3 and 4 use the short HCDT logo.',
+ hPick:'Version, design & accent',hDesignB:'Back design',
+ pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Version 2 is a color-logo-only front that shares version 1’s backs. The flat (non-3D) trapezoid shapes are navy only. Versions 3 and 4 are purple + one accent as a set. Version 3 fronts 3 and 4 use the short HCDT logo.',
  hSpec:'Original specs (guide 261020, pp. 15–17)',thItem:'Item',thVal:'Value',sSize:'Card size',sColor:'Colors',sVer:'Versions',sVerV:'1 Full logo (navy fixed, logo + UNIST) · 2 Color logo · 3 Trapezoid (incl. short logo) · 4 + – graphics',
  sName:'Name',sNameV:'Korean Spoqa Han Sans Neo Bold · Latin Helvetica Neue LT Std Bold, 14.53',
  sCn:'Bar between names',sCnV:'Bar width 0.86 × length 10.1, gap 13.0 / 16.3 / 19.6',
@@ -380,12 +399,12 @@ function conn(k,cx,ny,fill){
 }
 const NS=14.53,BS=8.41,PITCH=13.13,LIM=295;
 function resolveOv(key,d,C){
-  const g=(v)=>v==='A'?C.A:(v===NAVY&&st.b.v!==1?PUR:v);
+  const g=(v)=>v==='A'?C.A:v;
   return {lab:g(st.ov.lab||d.lab),bar:g(st.ov.bar||d.bar),en:g(st.ov.en||BLK),ti:g(st.ov.ti||BLK)};
 }
 function backSvgInner(s,D,warns){
   const d=des(s,'b'),a=A.cards[d.k],C=colorsOf(),o2=resolveOv(d.k,d,C);
-  const col=r=>r==='A'?C.A:r==='N'?(s.v===1?NAVY:PUR):PUR;
+  const col=r=>r==='A'?C.A:r==='N'?NAVY:PUR;
   let o='';
   const hasK=!!D.ko,hasE=!!D.en,both=hasK&&hasE;
   let size=NS,gap=both?st.gap:0;
@@ -464,13 +483,13 @@ function buildOv(){
 }
 const ovName=c=>c==='A'?(LANG==='ko'?'포인트색':'Accent'):cname(c);
 function renderOv(){
-  const opts=st.b.v===1?[BLK,NAVY,PUR,'A']:[BLK,PUR,'A'];
+  const nv=st.f.v===1&&st.b.v===1;const opts=nv?[BLK,NAVY,PUR,'A']:[BLK,PUR,'A'];
   OVK.forEach(k=>{
     if(st.ov[k]&&!opts.includes(st.ov[k]))st.ov[k]=null;
     const g=document.querySelector(`.og[data-k="${k}"]`),sw=g.lastChild,head=g.firstChild;
     head.firstChild.textContent=t(OVL[k]);head.lastChild.textContent=t(OVS[k]);
-    if(sw.dataset.v!==String(st.b.v)){
-      sw.innerHTML='';sw.dataset.v=st.b.v;
+    if(sw.dataset.v!==String(nv)){
+      sw.innerHTML='';sw.dataset.v=String(nv);
       const b0=document.createElement('button');b0.type='button';b0.className='sw def';b0.setAttribute('role','radio');b0.onclick=()=>{st.ov[k]=null;render()};sw.appendChild(b0);
       opts.forEach(c=>{const b=mkSw(sw,c,()=>{st.ov[k]=c;render()});if(c===BLK)b.classList.add('k')});
     }
