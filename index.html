@@ -258,7 +258,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 �
  front:'앞면',back:'뒷면',version:'버전',design:'디자인',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
  V:['풀 로고','색 로고','사다리꼴','+ –'],VS:['깔끔 · 남색 + 색 포인트','색 로고만','사다리꼴 강조 · 짧은 로고 포함','+ – 활용'],
  hPick:'버전 · 디자인 · 포인트색',
- pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2버전은 색 로고만 있는 앞면이고 뒷면은 1버전과 같습니다. 3·4버전은 보라 + 포인트색 한 가지 세트입니다. 3버전 앞면 3·4번은 HCDT 짧은 로고를 씁니다.',
+ pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2버전은 색 로고만 있는 앞면이고 뒷면은 1버전과 같되 남색 자리는 보라로 바뀝니다(남색은 1버전 전용). 3·4버전은 보라 + 포인트색 한 가지 세트입니다. 3버전 앞면 3·4번은 HCDT 짧은 로고를 씁니다.',
  hSpec:'원본 사양 (가이드 261020, 15–17쪽에서 추출)',thItem:'항목',thVal:'값',sSize:'카드 크기',sColor:'색상',sVer:'버전',sVerV:'1 풀 로고(남색 고정, 로고 + UNIST) · 2 색 로고 · 3 사다리꼴 강조(짧은 로고 포함) · 4 + – 활용',
  sName:'이름',sNameV:'한글 Spoqa Han Sans Neo Bold · 영문 Helvetica Neue LT Std Bold, 14.53',
  sCn:'이름 사이 바',sCnV:'바 굵기 0.86 × 길이 10.1, 간격 13.0 / 16.3 / 19.6',
@@ -278,7 +278,7 @@ en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261020) · 4 versions �
  front:'Front',back:'Back',version:'Version',design:'Design',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
  V:['Full logo','Color logo','Trapezoid','+ –'],VS:['Clean · navy + accent','Color logo only','Trapezoid · incl. short logo','+ – graphics'],
  hPick:'Version, design & accent',
- pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Version 2 is a color-logo-only front that shares version 1’s backs. Versions 3 and 4 are purple + one accent as a set. Version 3 fronts 3 and 4 use the short HCDT logo.',
+ pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Version 2 is a color-logo-only front that shares version 1’s backs, with navy replaced by purple (navy is version 1 only). Versions 3 and 4 are purple + one accent as a set. Version 3 fronts 3 and 4 use the short HCDT logo.',
  hSpec:'Original specs (guide 261020, pp. 15–17)',thItem:'Item',thVal:'Value',sSize:'Card size',sColor:'Colors',sVer:'Versions',sVerV:'1 Full logo (navy fixed, logo + UNIST) · 2 Color logo · 3 Trapezoid (incl. short logo) · 4 + – graphics',
  sName:'Name',sNameV:'Korean Spoqa Han Sans Neo Bold · Latin Helvetica Neue LT Std Bold, 14.53',
  sCn:'Bar between names',sCnV:'Bar width 0.86 × length 10.1, gap 13.0 / 16.3 / 19.6',
@@ -380,12 +380,12 @@ function conn(k,cx,ny,fill){
 }
 const NS=14.53,BS=8.41,PITCH=13.13,LIM=295;
 function resolveOv(key,d,C){
-  const g=(v)=>v==='A'?C.A:v;
+  const g=(v)=>v==='A'?C.A:(v===NAVY&&st.b.v!==1?PUR:v);
   return {lab:g(st.ov.lab||d.lab),bar:g(st.ov.bar||d.bar),en:g(st.ov.en||BLK),ti:g(st.ov.ti||BLK)};
 }
 function backSvgInner(s,D,warns){
   const d=des(s,'b'),a=A.cards[d.k],C=colorsOf(),o2=resolveOv(d.k,d,C);
-  const col=r=>r==='A'?C.A:r==='N'?NAVY:PUR;
+  const col=r=>r==='A'?C.A:r==='N'?(s.v===1?NAVY:PUR):PUR;
   let o='';
   const hasK=!!D.ko,hasE=!!D.en,both=hasK&&hasE;
   let size=NS,gap=both?st.gap:0;
@@ -464,7 +464,7 @@ function buildOv(){
 }
 const ovName=c=>c==='A'?(LANG==='ko'?'포인트색':'Accent'):cname(c);
 function renderOv(){
-  const opts=st.b.v<=2?[BLK,NAVY,PUR,'A']:[BLK,PUR,'A'];
+  const opts=st.b.v===1?[BLK,NAVY,PUR,'A']:[BLK,PUR,'A'];
   OVK.forEach(k=>{
     if(st.ov[k]&&!opts.includes(st.ov[k]))st.ov[k]=null;
     const g=document.querySelector(`.og[data-k="${k}"]`),sw=g.lastChild,head=g.firstChild;
