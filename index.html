@@ -143,6 +143,8 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .blk+.blk{border-top:1px solid var(--line);padding-top:20px}
 .zr .sub{grid-template-columns:48px minmax(0,1fr)}
 @media (max-width:860px){.zone{grid-template-columns:minmax(0,1fr)}.zl{border-right:0;border-bottom:1px solid var(--line)}.zl .pv{position:static}}
+.vt small,.og>span small{display:none}
+.vt{padding-top:8px;padding-bottom:8px}
 </style>
 
 <div class="wrap">
@@ -159,7 +161,6 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
       <div class="zh"><h2 id="z-col" data-i="accent"></h2></div>
       <div class="zc">
         <div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div>
-        <p class="note" data-i="accNote"></p>
       </div>
     </section>
 
@@ -191,7 +192,6 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
         <div class="fld"><b>P</b><input type="text" id="mobile" data-ia="mobile" data-ip="mobile" autocomplete="off"></div>
         <div class="fld"><b>W</b><input type="text" id="web" data-ia="web" data-ip="web" autocomplete="off"></div>
         <div class="fld"><input type="text" id="xlab" class="lab" maxlength="2" data-ia="xlab" placeholder="A"><input type="text" id="xval" data-ia="xval" data-ip="xval" autocomplete="off"></div>
-          <p class="note" data-i="noteRows"></p>
           <div class="btns"><button type="button" id="clear" data-i="clear"></button><button type="button" id="sample" data-i="sample"></button></div>
         </div>
         <div class="blk">
@@ -204,12 +204,10 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
         <div class="blk">
           <h3 class="sh" data-i="hOv"></h3>
           <div class="ovr" id="ovr"></div>
-        <p class="note" data-i="ovNote"></p>
         <div class="hr"></div>
         <h3 class="sh" data-i="hCn"></h3>
         <div class="cnb" id="cnb" role="radiogroup" aria-label="Connector"></div>
         <div class="gap"><input type="range" id="gap" min="13" max="20" step="0.1" data-ia="lGap"><output id="gapv" for="gap"></output></div>
-        <p class="note" data-i="cnNote"></p>
         </div>
       </div>
     </section>
@@ -223,7 +221,6 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
           <button type="button" id="exSvgB" data-i="exSvgB"></button>
         </div>
         <div class="warn" id="exwarn" hidden></div>
-        <p class="note" data-i="exNote"></p>
       </div>
     </section>
 
