@@ -141,17 +141,11 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .zr{padding:18px;display:grid;gap:22px;align-content:start;min-width:0}
 .blk{display:grid;gap:12px;min-width:0}
 .blk+.blk{border-top:1px solid var(--line);padding-top:20px}
-.zr .sub{grid-template-columns:48px minmax(0,1fr)}
+.zr .sub{grid-template-columns:64px minmax(0,1fr)}
 @media (max-width:860px){.zone{grid-template-columns:minmax(0,1fr)}.zl{border-right:0;border-bottom:1px solid var(--line)}.zl .pv{position:static}}
 .vt small,.og>span small{display:none}
 .vt{padding-top:8px;padding-bottom:8px}
 
-.zone.one:first-of-type{box-shadow:0 4px 14px rgba(0,0,0,.06)}
-.zone.one:first-of-type .zh{border-bottom:0;padding:14px 18px 0}
-.zone.one:first-of-type h2{font-size:18px;font-weight:800}
-.zone.one:first-of-type .zc{padding:10px 18px 16px}
-.zone.one:first-of-type .sw{width:44px;height:44px}
-.zone.one:first-of-type .swatches{gap:16px}
 
 .og{grid-template-columns:132px minmax(0,1fr);align-items:center;gap:8px}
 .og>span{white-space:nowrap}
@@ -184,18 +178,12 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
   </header>
 
   <main>
-    <section class="zone one" aria-labelledby="z-col">
-      <div class="zh"><h2 id="z-col" data-i="accent"></h2></div>
-      <div class="zc">
-        <div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div>
-      </div>
-    </section>
-
     <section class="zone" aria-labelledby="z-front">
       <div class="zh"><h2 id="z-front"><span class="tag f" data-i="front"></span></h2></div>
       <div class="zl"><div class="pv"><div class="side"><div class="cap"><span id="capF"></span></div><div class="card" id="prevF"></div></div></div></div>
       <div class="zr">
         <div class="pk">
+          <div class="sub"><span data-i="accS"></span><div class="swatches" id="swA" role="radiogroup" aria-label="Accent"></div></div>
           <div class="sub"><span data-i="version"></span><div class="vtabs" id="vtF" role="radiogroup" aria-label="Version"></div></div>
           <div class="sub"><span data-i="design"></span><div class="thumbs" id="thF"></div></div>
         </div>
@@ -297,7 +285,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261020) · 4가지 �
  hCn:'연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'기본은 가이드의 바(|)입니다. 색은 위 「이름 사이 바」에서 바꿉니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
  hExp:'내보내기',exPdf:'PDF (앞+뒤 2쪽)',exSvgF:'앞면 SVG',exSvgB:'뒷면 SVG',exNote:'PDF와 SVG 모두 벡터이며 글자는 윤곽선으로 변환됩니다(Helvetica Neue LT Std, Spoqa Han Sans Neo 내장). 도련(재단 여유) 3mm는 포함되지 않습니다.',
- front:'앞면',back:'뒷면',version:'버전',design:'디자인',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
+ front:'앞면',back:'뒷면',version:'버전',design:'디자인',accS:'포인트색',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
  V:['풀 로고','색 로고','사다리꼴','+ –'],VS:['깔끔 · 남색 + 색 포인트','색 로고만','사다리꼴 강조 · 짧은 로고 포함','+ – 활용'],
  hPick:'버전 · 디자인 · 포인트색',hDesignB:'뒷면 디자인',
  pickNote:'앞면과 뒷면은 서로 다른 버전을 섞어 쓸 수 있습니다. 1버전은 남색이 고정이고 포인트색만 바뀝니다. 2버전은 색 로고만 있는 앞면이고 뒷면은 1버전과 같습니다. 입체가 아닌 납작한 사다리꼴 도형은 남색만 씁니다. 3·4버전은 보라 + 포인트색 한 가지 세트입니다. 3버전 앞면 3·4번은 HCDT 짧은 로고를 씁니다.',
@@ -317,7 +305,7 @@ en:{h1:'Name Card Generator',sub:'N-FUD 2026 logo guide (261020) · 4 versions �
  hCn:'Connector',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The default is the guide’s bar (|). Change its color under “Bar between names” above. The gap stays within the guide’s min–max range (13.0–19.6).',
  hExp:'Export',exPdf:'PDF (front + back)',exSvgF:'Front SVG',exSvgB:'Back SVG',exNote:'Both PDF and SVG are vector, with text converted to outlines (Helvetica Neue LT Std and Spoqa Han Sans Neo built in). The 3 mm bleed is not included.',
- front:'Front',back:'Back',version:'Version',design:'Design',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
+ front:'Front',back:'Back',version:'Version',design:'Design',accS:'Accent',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
  V:['Full logo','Color logo','Trapezoid','+ –'],VS:['Clean · navy + accent','Color logo only','Trapezoid · incl. short logo','+ – graphics'],
  hPick:'Version, design & accent',hDesignB:'Back design',
  pickNote:'Front and back may use different versions. Version 1 keeps navy fixed and only the accent changes. Version 2 is a color-logo-only front that shares version 1’s backs. The flat (non-3D) trapezoid shapes are navy only. Versions 3 and 4 are purple + one accent as a set. Version 3 fronts 3 and 4 use the short HCDT logo.',
