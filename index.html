@@ -456,6 +456,7 @@ function svgBack(s,D,warns,extra){const u='cb'+(uidN++),r=backSvgInner(s,D,warns
 
 function setVer(side,v){st[side].v=v;st[side].i=0}
 function render(){
+  if(st.f.v!==1&&st.b.v===1){st.b.v=3;st.b.i=0}
   const D=data(),warns=[],miss=missing(D);
   if(miss.length)warns.push(t('wMiss',miss.join(' ')));
   $('prevF').innerHTML=svgFront(st.f);
@@ -464,7 +465,7 @@ function render(){
   $('capB').textContent=t('V')[st.b.v-1]+' · '+t('cd',st.b.i+1);
   ['f','b'].forEach(k=>{
     const s=st[k],K=k.toUpperCase(),V=VERS[s.v-1],list=V[k];
-    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length;el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=(j+1)+' · '+t('V')[j];el.lastChild.textContent=t('VS')[j]});
+    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=(j+1)+' · '+t('V')[j];el.lastChild.textContent=t('VS')[j]});
     const box=$('th'+K);
     if(box.children.length!==list.length||box.dataset.v!==String(s.v)){
       box.innerHTML='';box.dataset.v=s.v;
