@@ -183,8 +183,8 @@ html.hx-wide body{height:100vh;overflow:hidden;padding-block:6px}
 html.hx-wide .wrap{max-width:none;height:100%;grid-template-rows:auto minmax(0,1fr);gap:8px}
 html.hx-wide .hx-steps,html.hx-wide details.spec,html.hx-wide #exwarn,html.hx-wide header p{display:none!important}
 html.hx-wide header{padding-bottom:8px}
-html.hx-wide main{grid-template-columns:minmax(0,1fr) minmax(0,1.6fr)!important;grid-template-rows:minmax(0,1fr);gap:12px!important;min-height:0;height:100%}
-html.hx-wide .zone{min-height:0}
+html.hx-wide main{grid-template-columns:minmax(0,1fr) minmax(0,2fr)!important;grid-template-rows:minmax(0,1fr);gap:12px!important;min-height:0;height:100%}
+html.hx-wide .zone{min-height:0;align-self:stretch}
 html.hx-wide .zone:first-child{grid-template-columns:minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);overflow:auto}
 html.hx-wide .zone:last-of-type{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto auto minmax(0,1fr);overflow:auto}
 html.hx-wide .zl{padding:12px;border-right:0}
@@ -626,10 +626,6 @@ function init(){
   let saved=null;try{saved=JSON.parse(localStorage.getItem('namecard-v5')||'null')}catch(e){}
   setData(saved&&saved.D?saved.D:SAMPLE);
   if(saved&&saved.st){
-    ['f','b'].forEach(k=>{
-      const q=saved.st[k]||{},v=Math.min(Math.max(q.v|0,1),5),V=VERS[v-1];
-      if(!V[k].length){st[k].v=1;st[k].i=0}else{st[k].v=v;st[k].i=Math.min(Math.max(q.i|0,0),V[k].length-1)}
-    });
     if(ACC.includes(saved.st.a))st.a=saved.st.a;
     OVK.forEach(k=>{const c=saved.st.ov&&saved.st.ov[k];st.ov[k]=(c==='A'||c===BLK||c===NAVY||c===PUR)?c:null});
     st.cn=Math.min(Math.max(saved.st.cn|0,0),3);
