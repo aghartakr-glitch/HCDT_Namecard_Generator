@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <style>html,body{margin:0}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}</style>
 
-<title>명함 생성기</title>
+<title>HCDT Name Card</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
 /* 레이아웃: 좌측 입력 패널 + 우측 앞/뒷면 미리보기, 하단에 시안·색상 선택. 카드는 실제 비율(90×50mm) 유지 */
@@ -171,12 +171,11 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .cncol .gap{grid-template-columns:minmax(0,1fr);gap:4px}
 .cncol .gap output{text-align:left}
 @media (max-width:560px){.ovwrap{grid-template-columns:minmax(0,1fr)}.cncol{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:14px;margin-top:10px}}
-.thumbs[data-v="5"]{grid-template-columns:repeat(4,minmax(0,1fr))}
-.thumbs[data-v="5"] .pick{overflow:hidden}
-.thumbs[data-v="5"] .pick svg{transform:scale(1.45);transform-origin:56% 50%}
+.thumbs[data-v="2"] .pick,.thumbs[data-v="5"] .pick{overflow:hidden}
+.thumbs[data-v="2"] .pick svg,.thumbs[data-v="5"] .pick svg{transform:scale(1.5);transform-origin:52% 50%}
 .sw:disabled{opacity:.4;cursor:default}
 </style>
-<link rel="stylesheet" href="hcdt-ui.css?v=20261029c">
+<link rel="stylesheet" href="hcdt-ui.css?v=20261029d">
 </head>
 <body>
 
@@ -468,7 +467,7 @@ function render(){
   $('capB').textContent=t('V')[st.b.v-1]+' · '+t('cd',st.b.i+1);
   ['f','b'].forEach(k=>{
     const s=st[k],K=k.toUpperCase(),V=VERS[s.v-1],list=V[k];
-    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=(j+1)+' · '+t('V')[j];el.lastChild.textContent=t('VS')[j]});
+    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=t('V')[j];el.lastChild.textContent=t('VS')[j]});
     const box=$('th'+K);
     if(box.children.length!==list.length||box.dataset.v!==String(s.v)){
       box.innerHTML='';box.dataset.v=s.v;
@@ -626,6 +625,6 @@ function init(){
 init();
 </script>
 
-<script src="hcdt-ui.js?v=20261029c" data-tool="card"></script>
+<script src="hcdt-ui.js?v=20261029d" data-tool="card"></script>
 </body>
 </html>
