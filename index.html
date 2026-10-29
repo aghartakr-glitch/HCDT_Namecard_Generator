@@ -171,8 +171,9 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .cncol .gap{grid-template-columns:minmax(0,1fr);gap:4px}
 .cncol .gap output{text-align:left}
 @media (max-width:560px){.ovwrap{grid-template-columns:minmax(0,1fr)}.cncol{border-left:0;padding-left:0;border-top:1px solid var(--line);padding-top:14px;margin-top:10px}}
-.thumbs[data-v="2"] .pick,.thumbs[data-v="5"] .pick{overflow:hidden}
-.thumbs[data-v="2"] .pick svg,.thumbs[data-v="5"] .pick svg{transform:scale(1.5);transform-origin:52% 50%}
+#thB .pick i{left:auto;right:2px}
+#thF[data-v="2"] .pick,#thF[data-v="5"] .pick{overflow:hidden}
+#thF[data-v="2"] .pick svg,#thF[data-v="5"] .pick svg{transform:scale(1.5);transform-origin:52% 50%}
 .sw:disabled{opacity:.4;cursor:default}
 </style>
 <link rel="stylesheet" href="hcdt-ui.css?v=20261029e">
@@ -294,7 +295,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261028) · 5가지 �
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
  hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 앞면이 1버전일 때만)뿐이고, 한글 이름은 항상 검정입니다.',
  oLab:'머리글자',oLabS:'E · O · P · W',oBar:'이름 사이 바',oBarS:'한글 | 영문 사이의 세로선',oEn:'영문 이름',oEnS:'Gildong Hong',oTi:'직책',oTiS:'Associate Professor 등',def:'가이드 기본',
- hCn:'연결 기호',cnNone:'없음',cnDash:'대시 –',cnPlus:'플러스 +',cnBar:'바 |',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
+ hCn:'연결 기호',cnNone:'없음',cnDash:'대시',cnPlus:'플러스',cnBar:'바',lGap:'한글 이름과 영문 이름 사이 간격',gapV:g=>`간격 ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'기본은 가이드의 바(|)입니다. 색은 위 「이름 사이 바」에서 바꿉니다. 간격은 가이드의 최소·최대 범위(13.0–19.6) 안에서만 조절됩니다.',
  hExp:'내보내기',exPdf:'PDF (앞+뒤 2쪽)',exSvgF:'앞면 SVG',exSvgB:'뒷면 SVG',exNote:'PDF와 SVG 모두 벡터이며 글자는 윤곽선으로 변환됩니다(Helvetica Neue LT Std, Spoqa Han Sans Neo 내장). 도련(재단 여유) 3mm는 포함되지 않습니다.',
  front:'앞면',back:'뒷면',version:'버전',design:'디자인',accS:'포인트색',accent:'포인트색 (앞·뒷면 공통)',accNote:'가이드의 배색은 보라 + 포인트색 한 가지가 한 세트라서, 앞면과 뒷면이 같은 포인트색을 씁니다.',
@@ -314,7 +315,7 @@ en:{h1:'HCDT Name Card',sub:'N-FUD 2026 logo guide (261028) · 5 versions · log
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
  hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy only when the front is version 1); the Korean name is always black.',
  oLab:'Initials',oLabS:'E · O · P · W',oBar:'Bar between names',oBarS:'Vertical line between names',oEn:'English name',oEnS:'Gildong Hong',oTi:'Title',oTiS:'e.g. Associate Professor',def:'Guide default',
- hCn:'Connector',cnNone:'None',cnDash:'Dash –',cnPlus:'Plus +',cnBar:'Bar |',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
+ hCn:'Connector',cnNone:'None',cnDash:'Dash',cnPlus:'Plus',cnBar:'Bar',lGap:'Gap between Korean and English names',gapV:g=>`Gap ${(g*90/312.3).toFixed(1)} mm`,
  cnNote:'The default is the guide’s bar (|). Change its color under “Bar between names” above. The gap stays within the guide’s min–max range (13.0–19.6).',
  hExp:'Export',exPdf:'PDF (front + back)',exSvgF:'Front SVG',exSvgB:'Back SVG',exNote:'Both PDF and SVG are vector, with text converted to outlines (Helvetica Neue LT Std and Spoqa Han Sans Neo built in). The 3 mm bleed is not included.',
  front:'Front',back:'Back',version:'Version',design:'Design',accS:'Accent',accent:'Accent (front & back)',accNote:'The guide pairs purple with a single accent as one set, so front and back share the same accent.',
