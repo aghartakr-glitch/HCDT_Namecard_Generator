@@ -489,8 +489,9 @@ function render(){
   $('capF').textContent=t('V')[st.f.v-1]+' · '+(des(st.f,'f').sc?des(st.f,'f').sc+(st.f.i%4+1):t('cd',st.f.i+1));
   $('capB').textContent=t('V')[st.b.v-1]+' · '+t('cd',st.b.i+1);
   ['f','b'].forEach(k=>{
+    if(k==='b'&&st.b.v===5){st.b.v=2;st.b.i=0}  /* Color scheme back = Color logo back, so that tab is not offered */
     const s=st[k],K=k.toUpperCase(),V=VERS[s.v-1],list=V[k];
-    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=t('V')[j];el.lastChild.textContent=t('VS')[j]});
+    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1)||(k==='b'&&j===4);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=t('V')[j];el.lastChild.textContent=t('VS')[j]});
     const box=$('th'+K);
     if(box.children.length!==list.length||box.dataset.v!==String(s.v)){
       box.innerHTML='';box.dataset.v=s.v;
