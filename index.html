@@ -486,6 +486,7 @@ function render(){
   if(miss.length)warns.push(t('wMiss',miss.join(' ')));
   $('prevF').innerHTML=svgFront(st.f);
   $('prevB').innerHTML=svgBack(st.b,D,warns);
+  if(st.b.v===5){st.b.v=2;st.b.i=0}
   $('capF').textContent=t('V')[st.f.v-1]+' · '+(des(st.f,'f').sc?des(st.f,'f').sc+(st.f.i%4+1):t('cd',st.f.i+1));
   $('capB').textContent=t('V')[st.b.v-1]+' · '+t('cd',st.b.i+1);
   ['f','b'].forEach(k=>{
@@ -645,7 +646,7 @@ function init(){
 init();
 </script>
 
-<script src="hcdt-ui.js?v=20261030h" data-tool="card"></script>
+<script src="hcdt-ui.js?v=20261103a" data-tool="card"></script>
 <script>window.HX_CMYK=['#prevF','#prevB','#thF','#thB','#swA']</script><script src="hcdt-cmyk.js?v=20261029i"></script>
 </body>
 </html>
