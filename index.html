@@ -10,17 +10,17 @@
 <style>
 /* 레이아웃: 좌측 입력 패널 + 우측 앞/뒷면 미리보기, 하단에 시안·색상 선택. 카드는 실제 비율(90×50mm) 유지 */
 :root{
-  --bg:#ffffff; --panel:#ffffff; --fg:#17151c; --muted:#6b6b6b; --line:#e2e2e2;
-  --accent:#6b00ff; --accent-fg:#ffffff; --accent-soft:#ece3ff; --stage:#ffffff; --warn:#a8460a; --warn-bg:#fff0e3;
+  --bg:#ffffff; --panel:#ffffff; --fg:#000000; --muted:#6b6b6b; --line:#FFFFFF;
+  --accent:#6b00ff; --accent-fg:#ffffff; --accent-soft:#D2B2FF; --stage:#ffffff; --warn:#6B00FF; --warn-bg:#FFFFFF;
   --font-ui:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
   --font-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#121016; --panel:#1b1821; --fg:#eeecf3; --muted:#9a96a7; --line:#322e3b;
-  --accent:#9a66ff; --accent-fg:#120a24; --accent-soft:#2a1f45; --stage:#0c0b10; --warn:#ffb27a; --warn-bg:#35210f; color-scheme:dark}}
+  --bg:#000000; --panel:#000000; --fg:#FFFFFF; --muted:#9a96a7; --line:#000000;
+  --accent:#6B00FF; --accent-fg:#001B54; --accent-soft:#001B54; --stage:#000000; --warn:#E8B9AA; --warn-bg:#000000; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#121016; --panel:#1b1821; --fg:#eeecf3; --muted:#9a96a7; --line:#322e3b;
-  --accent:#9a66ff; --accent-fg:#120a24; --accent-soft:#2a1f45; --stage:#0c0b10; --warn:#ffb27a; --warn-bg:#35210f; color-scheme:dark}
+  --bg:#000000; --panel:#000000; --fg:#FFFFFF; --muted:#9a96a7; --line:#000000;
+  --accent:#6B00FF; --accent-fg:#001B54; --accent-soft:#001B54; --stage:#000000; --warn:#E8B9AA; --warn-bg:#000000; color-scheme:dark}
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--fg);font-family:var(--font-ui);font-size:var(--fs-small);line-height:1.55;
   padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
