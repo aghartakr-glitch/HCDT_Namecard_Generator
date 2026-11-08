@@ -176,7 +176,7 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 #thF[data-v="2"] .pick svg,#thF[data-v="5"] .pick svg{transform:scale(1.5);transform-origin:52% 50%}
 .sw:disabled{opacity:.4;cursor:default}
 </style>
-<link rel="stylesheet" href="hcdt-ui.css?v=20261108a">
+<link rel="stylesheet" href="hcdt-ui.css?v=20261108b">
 <style>
 /* wide workspace: everything on one screen */
 html.hx-wide body{height:100vh;overflow:hidden;padding-block:6px}
@@ -483,7 +483,7 @@ function svgBack(s,D,warns,extra){const u='cb'+(uidN++),r=backSvgInner(s,D,warns
 function setVer(side,v){st[side].v=v;st[side].i=0}
 function render(){
   if(st.f.v!==1&&st.b.v===1){st.b.v=(st.f.v===2||st.f.v===5)?2:3;st.b.i=0}
-  if(st.f.v===1&&st.b.v!==1&&st.b.v!==4){st.b.v=1;st.b.i=0}  /* Full logo front: back is Full logo only */
+  if(st.f.v===1&&st.b.v!==1){st.b.v=1;st.b.i=0}  /* Full logo front: exactly one approved back */
   if(st.f.v===5){const ac=des(st.f,'f').acc;if(ACC.includes(ac))st.a=ac}
   const D=data(),warns=[],miss=missing(D);
   if(miss.length)warns.push(t('wMiss',miss.join(' ')));
@@ -495,7 +495,7 @@ function render(){
   ['f','b'].forEach(k=>{
     if(k==='b'&&st.b.v===5){st.b.v=2;st.b.i=0}  /* Color scheme back = Color logo back, so that tab is not offered */
     const s=st[k],K=k.toUpperCase(),V=VERS[s.v-1],list=V[k];
-    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1)||(k==='b'&&j===4)||(k==='b'&&st.f.v===1&&j!==0&&j!==3);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=t('V')[j];el.lastChild.textContent=t('VS')[j]});
+    [...$('vt'+K).children].forEach((el,j)=>{el.hidden=!VERS[j][k].length||(k==='b'&&j===0&&st.f.v!==1)||(k==='b'&&j===4)||(k==='b'&&st.f.v===1&&j!==0);el.setAttribute('aria-checked',j+1===s.v);el.firstChild.textContent=t('V')[j];el.lastChild.textContent=t('VS')[j]});
     const box=$('th'+K);
     if(box.children.length!==list.length||box.dataset.v!==String(s.v)){
       box.innerHTML='';box.dataset.v=s.v;
