@@ -148,6 +148,11 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .blk+.blk{border-top:1px solid var(--line);padding-top:20px}
 .zr .sub{grid-template-columns:64px minmax(0,1fr)}
 @media (max-width:860px){.zone{grid-template-columns:minmax(0,1fr)}.zl{border-right:0;border-bottom:1px solid var(--line)}.zl .pv{position:static}}
+/* 12-column grid: preview 5 columns + controls 7 columns */
+.zone:not(.one){grid-template-columns:repeat(12,minmax(0,1fr))}
+.zone:not(.one)>.zl{grid-column:1/span 5}
+.zone:not(.one)>.zr{grid-column:6/-1}
+@media (max-width:860px){.zone:not(.one){grid-template-columns:minmax(0,1fr)}.zone:not(.one)>.zl,.zone:not(.one)>.zr{grid-column:1/-1}}
 .vt small,.og>span small{display:none}
 .vt{padding-top:8px;padding-bottom:8px}
 
