@@ -476,3 +476,5 @@ html:not(#hxt):not(#hxt2):not(#hxt3):not(#hxt4) body .seg button[aria-pressed=tr
 
 /* Embedded in the guideline: content sits exactly on the page's grid edges (no extra side padding). */
 html.hx-framed body{padding-left:0!important;padding-right:0!important}
+/* Embedded: no extra top/bottom padding (the guideline page provides the spacing) */
+html.hx-framed body{padding-top:0!important;padding-bottom:0!important}
