@@ -182,7 +182,7 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .sw:disabled{opacity:.4;cursor:default}
 </style>
 <link rel="stylesheet" href="hcdt-ui.css?v=20261108c">
-<link rel="stylesheet" href="hcdt-embed.css?v=20261112g">
+<link rel="stylesheet" href="hcdt-embed.css?v=20261112k">
 <style>
 /* wide workspace: everything on one screen */
 
@@ -278,18 +278,6 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 
     <div class="warn" id="exwarn" hidden></div>
 
-    <details class="panel spec">
-        <summary data-i="hSpec"></summary>
-        <div class="tw"><table>
-          <tr><th data-i="thItem"></th><th data-i="thVal"></th></tr>
-          <tr><td data-i="sSize"></td><td>312.3 × 173.6 = 90 × 50 mm (1.80)</td></tr>
-          <tr><td data-i="sColor"></td><td>#6B00FF · #001B54 · #64D8D8 · #E8B9AA · #73D888 · #E8E041</td></tr>
-          <tr><td data-i="sVer"></td><td data-i="sVerV"></td></tr>
-          <tr><td data-i="sName"></td><td data-i="sNameV"></td></tr>
-          <tr><td data-i="sCn"></td><td data-i="sCnV"></td></tr>
-          <tr><td data-i="sBody"></td><td data-i="sBodyV"></td></tr>
-        </table></div>
-      </details>
   </main>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -320,7 +308,7 @@ const VERS=[
  {n:5,f:[],b:[]}
 ];
 const I={
-ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261028) · 5가지 버전 · 로고와 도형은 PDF 원본 벡터',hInfo:'정보 입력',lKo:'한글 이름',lEn:'영문 이름',lTitle:'직책',lTitleIn:'직책을 직접 입력',tCustom:'직접 입력…',tNone:'선택 안 함',
+ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드 · 5가지 버전 · 로고와 도형은 PDF 원본 벡터',hInfo:'정보 입력',lKo:'한글 이름',lEn:'영문 이름',lTitle:'직책',lTitleIn:'직책을 직접 입력',tCustom:'직접 입력…',tNone:'선택 안 함',
  email:'이메일',office:'사무실 전화',mobile:'휴대전화',web:'웹사이트',xlab:'추가 줄 머리글자',xval:'추가 줄 (주소 등)',
  noteRows:'비워 둔 줄은 빠지고, 남은 줄이 원본처럼 아래쪽 기준으로 정렬됩니다. 이름은 한쪽만 입력해도 됩니다.',clear:'입력 비우기',sample:'예시 채우기',
  hOv:'뒷면 색상 변경 · 이름 간격',ovNote:'뒷면에서 아래 4곳만 따로 바꿀 수 있습니다. 「가이드 기본」은 선택한 뒷면 시안의 원래 색입니다. 고를 수 있는 색은 검정·보라·포인트색(남색은 앞면이 1버전일 때만)뿐이고, 한글 이름은 항상 검정입니다.',
@@ -340,7 +328,7 @@ ko:{h1:'명함 생성기',sub:'N-FUD 2026 로고 가이드(261028) · 5가지 �
  wName:'이름이 너무 길어 영역을 넘칩니다. 줄이거나 짧게 입력해 주세요.',wRow:v=>`“${v}” 줄이 카드 영역을 넘칩니다.`,wMany:'연락처 줄이 많아 직함과 겹칩니다. 줄 수를 줄여 주세요.',
  wMiss:c=>`글꼴에 없는 글자가 있습니다: ${c}. 이 글자는 그려지지 않아 내보내기를 막았습니다.`,
  tSaved:n=>'저장했습니다: '+n,tFail:c=>'저장하지 못했습니다 ('+c+')',tLib:'PDF 라이브러리를 불러오지 못했습니다',tPdf:m=>'PDF를 만들지 못했습니다: '+m},
-en:{h1:'HCDT Name Card',sub:'N-FUD 2026 logo guide (261028) · 5 versions · logo and shapes are the original PDF vectors',hInfo:'Your details',lKo:'Korean name',lEn:'English name',lTitle:'Title',lTitleIn:'Type your title',tCustom:'Custom…',tNone:'None',
+en:{h1:'HCDT Name Card',sub:'N-FUD 2026 logo guide · 5 versions · logo and shapes are the original PDF vectors',hInfo:'Your details',lKo:'Korean name',lEn:'English name',lTitle:'Title',lTitleIn:'Type your title',tCustom:'Custom…',tNone:'None',
  email:'Email',office:'Office phone',mobile:'Mobile',web:'Website',xlab:'Extra line label',xval:'Extra line (address, etc.)',
  noteRows:'Empty lines are dropped and the rest stay aligned to the bottom, as in the original. One name field is enough.',clear:'Clear all',sample:'Fill example',
  hOv:'Back colors & name spacing',ovNote:'Only these four items on the back can be recolored. “Guide default” is the original color of the chosen back design. Choices are black, purple and the accent (navy only when the front is version 1); the Korean name is always black.',
@@ -510,6 +498,7 @@ function render(){
       box.innerHTML='';box.dataset.v=s.v;
       list.forEach((d,i)=>{const b=document.createElement('button');b.type='button';b.className='pick';b.innerHTML='<span style="display:block"></span><i>'+(d.sc?d.sc+(i%4+1):String(i+1).padStart(2,'0'))+'</i>';b.onclick=()=>{s.i=i;render()};box.appendChild(b)});
     }
+    /* the design grid keeps the height of the tallest version (12 designs), so the panel does not jump between versions */
     [...box.children].forEach((el,i)=>{
       const tmp={v:s.v,i};
       el.setAttribute('aria-pressed',i===s.i);
@@ -517,9 +506,10 @@ function render(){
       el.firstChild.innerHTML=k==='f'?svgFront(tmp):svgBack(tmp,D,null);
     });
   });
+  ['f','b'].forEach(k=>{const bx=$('th'+k.toUpperCase());const tile=bx.firstElementChild;if(!tile)return;bx.style.minHeight='0px';const cols=getComputedStyle(bx).gridTemplateColumns.split(' ').length||1;const most=Math.max.apply(null,VERS.map(v=>v[k].length));const rows=Math.ceil(most/cols);const tw=(bx.clientWidth-(cols-1)*8)/cols;const th=tw/1.8+4;bx.style.minHeight=Math.round(rows*th+(rows-1)*8)+'px'});
   /* 포인트색(앞·뒷면 공통) */
   const swA=$('swA');
-  swA.parentElement.style.display=st.f.v===1?'none':'';  /* Full logo is navy only: no accent choice */
+  swA.parentElement.style.visibility=st.f.v===1?'hidden':'';  /* keep the row's space, so switching versions never makes the panel jump */  /* Full logo is navy only: no accent choice */
   if(!swA.children.length)ACC.forEach(c=>mkSw(swA,c,()=>{st.a=c;render()}));
   [...swA.children].forEach((el,j)=>{const c=ACC[j];el.setAttribute('aria-checked',c===st.a);el.title=cname(c)+' '+c;el.setAttribute('aria-label',cname(c));el.disabled=!!des(st.f,'f').sc});
     renderOv();
