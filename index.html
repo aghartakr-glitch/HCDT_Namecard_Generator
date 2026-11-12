@@ -61,7 +61,7 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .sub{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center}
 .sub[hidden],.vt[hidden]{display:none}
 .sub>span{font-size:var(--fs-small);color:var(--muted)}
-.thumbs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.thumbs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;align-content:start;align-items:start}  /* a taller min-height must not stretch the tiles */
 @media (max-width:480px){.thumbs{grid-template-columns:repeat(4,minmax(0,1fr))}}
 .pick{padding:0;border:2px solid var(--line);background:#fff;line-height:0;border-radius:3px;cursor:pointer;position:relative}
 .pick[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
@@ -182,7 +182,7 @@ main{display:grid!important;grid-template-columns:minmax(0,1fr)!important;gap:20
 .sw:disabled{opacity:.4;cursor:default}
 </style>
 <link rel="stylesheet" href="hcdt-ui.css?v=20261108c">
-<link rel="stylesheet" href="hcdt-embed.css?v=20261112k">
+<link rel="stylesheet" href="hcdt-embed.css?v=20261112m">
 <style>
 /* wide workspace: everything on one screen */
 
